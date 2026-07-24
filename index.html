@@ -3,23 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-width=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RED Casco | Menú Interactivo</title>
-    <!-- Tailwind CSS para estilizado rápido -->
+    <title>RED Casco | Portal Oficial</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome para íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- QRCode.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        redNeon: '#ff003c',
-                        darkBg: '#0a0a0a',
-                        cardBg: '#1a1a1a'
-                    }
+                    colors: { redNeon: '#ff003c', darkBg: '#0a0a0a', cardBg: '#1a1a1a' }
                 }
             }
         }
@@ -28,16 +21,90 @@
         body { background-color: #0a0a0a; color: white; -webkit-tap-highlight-color: transparent; }
         .neon-text { text-shadow: 0 0 10px rgba(255, 0, 60, 0.7); }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .nav-active { color: #ff003c; }
     </style>
 </head>
-<body class="pb-24">
+<body class="pb-20">
 
-    <!-- Header / Info de Mesa -->
-    <header class="bg-cardBg sticky top-0 z-50 border-b border-redNeon/30 p-4 shadow-lg shadow-redNeon/10">
-        <div class="flex justify-between items-center">
+    <!-- HEADER GLOBAL -->
+    <header class="bg-cardBg sticky top-0 z-50 border-b border-redNeon/30 p-4 shadow-lg shadow-redNeon/10 text-center">
+        <h1 class="text-2xl font-bold text-redNeon tracking-wider neon-text">RED CASCO</h1>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- VISTA 1: EVENTOS Y TAQUILLA (PORTAL)       -->
+    <!-- ========================================== -->
+    <main id="view-portal" class="block animate-fade-in">
+        <!-- Hero Evento Principal -->
+        <div class="relative h-64 bg-gray-900 border-b border-gray-800">
+            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" class="w-full h-full object-cover opacity-50" alt="Evento">
+            <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-darkBg to-transparent">
+                <span class="bg-redNeon text-white text-xs font-bold px-2 py-1 rounded mb-2 inline-block">HOY</span>
+                <h2 class="text-3xl font-bold uppercase tracking-wide">Modo Avión ✈️</h2>
+                <p class="text-gray-300 text-sm">DJ Aníbal & DJ Terco • Open Bar hasta 12:00 AM</p>
+            </div>
+        </div>
+        
+        <div class="p-4 space-y-4">
+            <button onclick="alert('Simulación: Aquí el usuario compra su entrada directa sin comisiones de tiquetera.')" class="w-full bg-redNeon text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-redNeon/30 uppercase tracking-wide">
+                Comprar Tickets
+            </button>
+            <div class="grid grid-cols-2 gap-4">
+                <button class="bg-gray-800 text-white py-3 rounded-xl font-bold text-sm border border-gray-700">Lista Gratis (Mujeres)</button>
+                <button class="bg-gray-800 text-white py-3 rounded-xl font-bold text-sm border border-gray-700">Reserva VIP</button>
+            </div>
+        </div>
+
+        <div class="p-4">
+            <h3 class="text-gray-400 font-bold mb-3 uppercase tracking-wider text-sm">Próximos Eventos</h3>
+            <div class="bg-cardBg p-4 rounded-xl border border-gray-800 flex justify-between items-center mb-3">
+                <div>
+                    <h4 class="font-bold">Red Room (Techno)</h4>
+                    <p class="text-xs text-gray-500">Sábado, 25 de Julio</p>
+                </div>
+                <button class="text-redNeon text-sm font-bold">Tickets <i class="fas fa-chevron-right ml-1"></i></button>
+            </div>
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- VISTA 2: CONECTAR MESA (EL PUENTE)         -->
+    <!-- ========================================== -->
+    <main id="view-conectar" class="hidden p-6 flex flex-col items-center justify-center min-h-[70vh] text-center">
+        <div class="w-20 h-20 bg-gray-800 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-redNeon/20 border border-redNeon/30">
+            <i class="fas fa-satellite-dish text-3xl text-redNeon"></i>
+        </div>
+        <h2 class="text-2xl font-bold mb-2">¿Ya estás en el club?</h2>
+        <p class="text-gray-400 text-sm mb-8">Vincula tu mesa para pedir desde tu celular o generar un Fast Pass para la barra.</p>
+        
+        <div class="w-full max-w-sm space-y-4">
+            <button onclick="alert('Se abriría la cámara para escanear el QR pegado en la mesa.')" class="w-full bg-gray-800 text-white py-4 rounded-xl font-bold border border-gray-700 flex items-center justify-center">
+                <i class="fas fa-qrcode text-xl mr-2"></i> Escanear QR de Mesa
+            </button>
+            
+            <div class="relative flex py-2 items-center">
+                <div class="flex-grow border-t border-gray-800"></div>
+                <span class="flex-shrink-0 mx-4 text-gray-500 text-xs uppercase">o ingresa el código manual</span>
+                <div class="flex-grow border-t border-gray-800"></div>
+            </div>
+
+            <div class="flex space-x-2">
+                <input type="text" id="codigo-mesa" placeholder="Ej: 14" class="w-full bg-cardBg border border-gray-700 text-white text-center rounded-xl p-4 text-xl font-bold uppercase focus:outline-none focus:border-redNeon transition">
+                <button onclick="desbloquearMenu()" class="bg-redNeon text-white px-6 rounded-xl font-bold shadow-lg shadow-redNeon/30">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- VISTA 3: MENÚ INTERACTIVO (Experiencia In-Club) -->
+    <!-- ========================================== -->
+    <main id="view-menu" class="hidden">
+        <div class="bg-cardBg p-4 border-b border-gray-800 flex justify-between items-center shadow-lg">
             <div>
-                <h1 class="text-2xl font-bold text-redNeon tracking-wider neon-text">RED CASCO</h1>
-                <p class="text-xs text-gray-400">Mesa 14 • <span class="text-yellow-500 font-bold"><i class="fas fa-crown"></i> VIP Platinum</span></p>
+                <p class="text-xs text-gray-400">Mesa Conectada</p>
+                <p class="font-bold text-white text-lg">Mesa <span id="display-mesa">--</span> • <i class="fas fa-crown text-yellow-500 text-xs"></i> VIP</p>
             </div>
             <div class="text-right">
                 <p class="text-xs text-gray-400">Saldo Consumible</p>
@@ -46,82 +113,116 @@
         </div>
         
         <!-- Categorías -->
-        <div class="flex space-x-4 overflow-x-auto hide-scrollbar mt-4 pb-2">
+        <div class="flex space-x-4 overflow-x-auto hide-scrollbar p-4">
             <button class="bg-redNeon text-white px-4 py-1 rounded-full text-sm font-bold whitespace-nowrap">Botellas</button>
             <button class="bg-gray-800 text-gray-300 px-4 py-1 rounded-full text-sm font-bold whitespace-nowrap">Mixers</button>
-            <button class="bg-gray-800 text-gray-300 px-4 py-1 rounded-full text-sm font-bold whitespace-nowrap">Cervezas</button>
             <button class="bg-gray-800 text-gray-300 px-4 py-1 rounded-full text-sm font-bold whitespace-nowrap">Hookah</button>
         </div>
-    </header>
 
-    <!-- Grid de Productos -->
-    <main class="p-4 grid grid-cols-2 gap-4" id="product-grid">
-        <!-- Renderizado dinámico vía JS -->
+        <div class="p-4 grid grid-cols-2 gap-4 pb-28" id="product-grid">
+            <!-- JS Renders here -->
+        </div>
+
+        <!-- Barra Inferior Carrito -->
+        <div class="fixed bottom-[72px] w-full bg-cardBg border-t border-redNeon/50 p-4 flex justify-between items-center z-40 shadow-[0_-10px_20px_rgba(0,0,0,0.5)]">
+            <div>
+                <p class="text-xs text-gray-400">Total Pedido</p>
+                <p class="text-xl font-bold text-white" id="cart-total">$0.00</p>
+            </div>
+            <div class="flex space-x-2">
+                <button onclick="enviarPedidoMesa()" class="bg-gray-800 text-white px-4 py-2 rounded-lg font-bold text-sm border border-gray-700">
+                    <i class="fas fa-concierge-bell mr-1"></i> A la mesa
+                </button>
+                <button onclick="abrirModalQR()" class="bg-redNeon text-white px-4 py-2 rounded-lg font-bold text-sm shadow-lg shadow-redNeon/40">
+                    <i class="fas fa-qrcode mr-1"></i> Barra
+                </button>
+            </div>
+        </div>
     </main>
 
-    <!-- Barra Inferior de Carrito -->
-    <div class="fixed bottom-0 w-full bg-cardBg border-t border-redNeon/50 p-4 flex justify-between items-center z-50">
-        <div>
-            <p class="text-sm text-gray-400">Total Pedido</p>
-            <p class="text-2xl font-bold text-white" id="cart-total">$0.00</p>
-        </div>
-        <div class="flex space-x-2">
-            <button onclick="enviarPedidoMesa()" class="bg-gray-800 text-white px-4 py-3 rounded-lg font-bold text-sm shadow-md">
-                <i class="fas fa-bell mr-1"></i> A la mesa
-            </button>
-            <button onclick="abrirModalQR()" class="bg-redNeon text-white px-4 py-3 rounded-lg font-bold text-sm shadow-lg shadow-redNeon/40">
-                <i class="fas fa-qrcode mr-1"></i> Fast Pass
-            </button>
-        </div>
-    </div>
-
     <!-- Modal QR (Fast Pass) -->
-    <div id="qr-modal" class="fixed inset-0 bg-black/90 z-[60] hidden flex-col justify-center items-center p-6">
-        <h2 class="text-2xl font-bold text-white mb-2 text-center">Tu Fast Pass</h2>
-        <p class="text-gray-400 text-center mb-6 text-sm">Muestra este código en la barra principal para retirar tu pedido al instante.</p>
-        
-        <div class="bg-white p-4 rounded-xl mb-6">
-            <div id="qrcode"></div>
-        </div>
-        
+    <div id="qr-modal" class="fixed inset-0 bg-black/95 z-[70] hidden flex-col justify-center items-center p-6">
+        <h2 class="text-2xl font-bold text-white mb-2 text-center">Fast Pass de Barra</h2>
+        <p class="text-gray-400 text-center mb-6 text-sm">Muestra este código al bartender para retirar tu pedido.</p>
+        <div class="bg-white p-4 rounded-xl mb-6"><div id="qrcode"></div></div>
         <div class="w-full max-w-sm bg-cardBg p-4 rounded-lg mb-6 border border-gray-800">
             <h3 class="font-bold text-redNeon border-b border-gray-800 pb-2 mb-2">Resumen</h3>
             <ul id="qr-summary" class="text-sm text-gray-300 space-y-1"></ul>
         </div>
-
-        <button onclick="cerrarModalQR()" class="bg-gray-800 text-white w-full max-w-sm py-3 rounded-lg font-bold">Cerrar</button>
+        <button onclick="cerrarModalQR()" class="bg-gray-800 text-white w-full max-w-sm py-3 rounded-lg font-bold">Cerrar Fast Pass</button>
     </div>
 
+    <!-- ========================================== -->
+    <!-- BARRA DE NAVEGACIÓN INFERIOR (GLOBAL)      -->
+    <!-- ========================================== -->
+    <nav class="fixed bottom-0 w-full bg-cardBg border-t border-gray-800 flex justify-around items-center py-2 z-50 pb-safe">
+        <button onclick="switchNav('portal')" id="nav-portal" class="flex flex-col items-center p-2 nav-active transition">
+            <i class="fas fa-ticket-alt text-xl mb-1"></i>
+            <span class="text-[10px] font-bold uppercase">Eventos</span>
+        </button>
+        <button onclick="alert('Sección SOBRE NOSOTROS: Reglas de vestimenta, ubicación en San Felipe, horarios e info de contacto.')" class="flex flex-col items-center p-2 text-gray-500 hover:text-white transition">
+            <i class="fas fa-info-circle text-xl mb-1"></i>
+            <span class="text-[10px] font-bold uppercase">Info</span>
+        </button>
+        <button onclick="switchNav('conectar')" id="nav-conectar" class="flex flex-col items-center p-2 text-gray-500 transition">
+            <i class="fas fa-glass-cheers text-xl mb-1"></i>
+            <span class="text-[10px] font-bold uppercase">Mi Mesa</span>
+        </button>
+    </nav>
+
     <script>
-        // Base de datos simulada
+        // --- NAVEGACIÓN SPA ---
+        function switchNav(view) {
+            document.getElementById('view-portal').classList.add('hidden');
+            document.getElementById('view-conectar').classList.add('hidden');
+            document.getElementById('view-menu').classList.add('hidden');
+            
+            document.getElementById('nav-portal').classList.remove('nav-active');
+            document.getElementById('nav-conectar').classList.remove('nav-active');
+            
+            document.getElementById(`view-${view}`).classList.remove('hidden');
+            if(view !== 'menu') {
+                document.getElementById(`nav-${view}`).classList.add('nav-active');
+            } else {
+                document.getElementById('nav-conectar').classList.add('nav-active');
+            }
+        }
+
+        // --- LÓGICA DE CONEXIÓN DE MESA ---
+        let mesaActual = "";
+        function desbloquearMenu() {
+            const input = document.getElementById('codigo-mesa').value;
+            if(!input) return alert('Por favor, ingresa el número de tu mesa');
+            mesaActual = input;
+            document.getElementById('display-mesa').innerText = mesaActual;
+            switchNav('menu');
+        }
+
+        // --- LÓGICA DEL MENÚ INTERACTIVO ---
         const productos = [
-            { id: 1, nombre: 'Buchanans 12', precio: 120, img: 'https://images.unsplash.com/photo-1569529465841-dfecdab7503b?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
-            { id: 2, nombre: 'Tito\'s Vodka', precio: 80, img: 'https://images.unsplash.com/photo-1614316346023-0868f7f2b1d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
-            { id: 3, nombre: 'Ron Abuelo 12', precio: 70, img: 'https://images.unsplash.com/photo-1615887023516-9bfa02b9e6f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
-            { id: 4, nombre: 'Red Bull', precio: 6, img: 'https://images.unsplash.com/photo-1622543925917-763c34d1a86e?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
-            { id: 5, nombre: 'Coca Cola', precio: 3, img: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
-            { id: 6, nombre: 'Agua Embotellada', precio: 3, img: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' }
+            { id: 1, nombre: 'Buchanans 12', precio: 120, img: 'https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=300&q=80' },
+            { id: 2, nombre: 'Tito\'s Vodka', precio: 80, img: 'https://images.unsplash.com/photo-1614316346023-0868f7f2b1d2?w=300&q=80' },
+            { id: 3, nombre: 'Ron Abuelo 12', precio: 70, img: 'https://images.unsplash.com/photo-1615887023516-9bfa02b9e6f4?w=300&q=80' },
+            { id: 4, nombre: 'Red Bull', precio: 6, img: 'https://images.unsplash.com/photo-1622543925917-763c34d1a86e?w=300&q=80' }
         ];
 
         let carrito = {};
         let saldoVIP = 250;
 
-        // Renderizar productos
         const grid = document.getElementById('product-grid');
         productos.forEach(prod => {
             grid.innerHTML += `
-                <div class="bg-cardBg rounded-xl overflow-hidden border border-gray-800 shadow-md flex flex-col">
-                    <div class="h-32 bg-gray-900 relative">
-                        <!-- Placeholder visual para imagen -->
-                        <img src="${prod.img}" class="w-full h-full object-cover opacity-60" alt="${prod.nombre}">
+                <div class="bg-cardBg rounded-xl overflow-hidden border border-gray-800 shadow-md">
+                    <div class="h-28 relative">
+                        <img src="${prod.img}" class="w-full h-full object-cover opacity-50">
                         <div class="absolute top-2 right-2 bg-black/80 px-2 py-1 rounded text-xs font-bold text-green-400">$${prod.precio}</div>
                     </div>
-                    <div class="p-3 flex-grow flex flex-col justify-between">
-                        <h3 class="text-sm font-bold mb-2 line-clamp-2">${prod.nombre}</h3>
+                    <div class="p-3">
+                        <h3 class="text-sm font-bold mb-2 truncate">${prod.nombre}</h3>
                         <div class="flex items-center justify-between bg-black rounded-lg p-1">
-                            <button onclick="modificarCarrito(${prod.id}, -1)" class="w-8 h-8 rounded-md bg-gray-800 text-white font-bold">-</button>
+                            <button onclick="modificarCarrito(${prod.id}, -1)" class="w-8 h-8 rounded-md bg-gray-800 font-bold">-</button>
                             <span id="qty-${prod.id}" class="font-bold text-sm">0</span>
-                            <button onclick="modificarCarrito(${prod.id}, 1)" class="w-8 h-8 rounded-md bg-redNeon text-white font-bold">+</button>
+                            <button onclick="modificarCarrito(${prod.id}, 1)" class="w-8 h-8 rounded-md bg-redNeon font-bold">+</button>
                         </div>
                     </div>
                 </div>
@@ -130,63 +231,48 @@
 
         function modificarCarrito(id, delta) {
             if (!carrito[id]) carrito[id] = 0;
-            carrito[id] += delta;
-            if (carrito[id] < 0) carrito[id] = 0;
-            
+            carrito[id] = Math.max(0, carrito[id] + delta);
             document.getElementById(`qty-${id}`).innerText = carrito[id];
             actualizarTotales();
         }
 
         function actualizarTotales() {
-            let total = 0;
-            productos.forEach(prod => {
-                if (carrito[prod.id]) total += carrito[prod.id] * prod.precio;
-            });
+            let total = productos.reduce((sum, prod) => sum + (carrito[prod.id] || 0) * prod.precio, 0);
             document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
-            
-            // Simulación visual del saldo VIP
             let saldoRestante = saldoVIP - total;
             const saldoEl = document.getElementById('saldo-display');
             saldoEl.innerText = `$${saldoRestante.toFixed(2)}`;
             saldoEl.className = saldoRestante >= 0 ? "text-xl font-bold text-green-400" : "text-xl font-bold text-red-500";
         }
 
-        // Simula enviar a la cola del backend (LocalStorage)
-        function enviarPedidoMesa() {
-            let pedidoActivo = crearObjetoPedido("Mesa");
-            if(pedidoActivo.items.length === 0) return alert("El carrito está vacío");
-
-            // Guardar en LocalStorage para que el admin.html lo lea
-            let pedidosGlobales = JSON.parse(localStorage.getItem('red_pedidos')) || [];
-            pedidosGlobales.push(pedidoActivo);
-            localStorage.setItem('red_pedidos', JSON.stringify(pedidosGlobales));
-            
-            // Disparar evento para actualizar otras pestañas (magia del prototipo)
-            window.dispatchEvent(new Event('storage'));
-
-            alert("¡Pedido enviado a la barra! En breve te lo llevan a la Mesa 14.");
-            resetearCarrito();
-        }
-
+        // --- COMUNICACIÓN CON ADMIN.HTML ---
         function crearObjetoPedido(tipo) {
-            let items = [];
-            let total = 0;
-            productos.forEach(prod => {
-                if (carrito[prod.id] > 0) {
-                    items.push({ nombre: prod.nombre, cant: carrito[prod.id], precio: prod.precio });
-                    total += carrito[prod.id] * prod.precio;
-                }
-            });
+            let items = productos.filter(p => carrito[p.id] > 0).map(p => ({ nombre: p.nombre, cant: carrito[p.id], precio: p.precio }));
+            let total = items.reduce((sum, item) => sum + (item.cant * item.precio), 0);
             return {
                 id: 'ORD-' + Math.floor(Math.random() * 10000),
-                mesa: "14",
-                tipo: tipo, // "Mesa" o "QR_Barra"
+                mesa: mesaActual,
+                tipo: tipo,
                 items: items,
                 total: total,
                 timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
             };
         }
 
+        function enviarPedidoMesa() {
+            let pedidoActivo = crearObjetoPedido("Mesa");
+            if(pedidoActivo.items.length === 0) return alert("El carrito está vacío");
+
+            let pedidosGlobales = JSON.parse(localStorage.getItem('red_pedidos')) || [];
+            pedidosGlobales.push(pedidoActivo);
+            localStorage.setItem('red_pedidos', JSON.stringify(pedidosGlobales));
+            window.dispatchEvent(new Event('storage'));
+
+            alert(`¡Pedido enviado! En breve te lo llevan a la Mesa ${mesaActual}.`);
+            resetearCarrito();
+        }
+
+        // --- FAST PASS (CÓDIGO QR) ---
         function abrirModalQR() {
             let pedidoActivo = crearObjetoPedido("QR_Barra");
             if(pedidoActivo.items.length === 0) return alert("Agrega productos para generar el Fast Pass");
@@ -194,24 +280,12 @@
             document.getElementById('qr-modal').classList.remove('hidden');
             document.getElementById('qr-modal').classList.add('flex');
             
-            // Llenar resumen
             const summary = document.getElementById('qr-summary');
-            summary.innerHTML = '';
-            pedidoActivo.items.forEach(item => {
-                summary.innerHTML += `<li>${item.cant}x ${item.nombre} <span class="float-right">$${item.precio * item.cant}</span></li>`;
-            });
+            summary.innerHTML = pedidoActivo.items.map(item => `<li>${item.cant}x ${item.nombre} <span class="float-right">$${item.precio * item.cant}</span></li>`).join('');
             summary.innerHTML += `<li class="font-bold text-white border-t border-gray-700 mt-2 pt-2">Total: <span class="float-right text-redNeon">$${pedidoActivo.total}</span></li>`;
 
-            // Generar código QR real con la data JSON
             document.getElementById('qrcode').innerHTML = '';
-            new QRCode(document.getElementById("qrcode"), {
-                text: JSON.stringify(pedidoActivo),
-                width: 200,
-                height: 200,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
+            new QRCode(document.getElementById("qrcode"), { text: JSON.stringify(pedidoActivo), width: 180, height: 180, colorDark: "#000", colorLight: "#fff" });
         }
 
         function cerrarModalQR() {
