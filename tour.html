@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-width=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RED Casco | VIP Tour</title>
+    
+    <!-- Tailwind y FontAwesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Pannellum (Visor 360) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    
+    <style>
+        /* Aseguramos que el visor ocupe el 100% de la pantalla sin scroll */
+        body { margin: 0; overflow: hidden; background-color: #050505; font-family: 'Inter', sans-serif; }
+        #panorama { width: 100vw; height: 100vh; }
+        
+        /* Efecto de cristal para la interfaz superpuesta */
+        .glass-panel { background: rgba(10, 10, 10, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        
+        /* Ocultar el link de créditos por defecto de la librería para mantenerlo "White Label" */
+        .pnlm-about-msg { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <!-- BOTÓN DE REGRESO (Flotante arriba a la izquierda) -->
+    <div class="absolute top-6 left-6 z-50">
+        <!-- El href="index.html" es la clave para conectar las páginas -->
+        <a href="index.html" class="glass-panel text-white px-5 py-3 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-white/20 transition flex items-center shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+            <i class="fas fa-arrow-left mr-2"></i> Volver al Portal
+        </a>
+    </div>
+
+    <!-- TARJETA DE INFORMACIÓN VIP (Flotante abajo al centro) -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-50 w-11/12 max-w-sm">
+        <div class="glass-panel p-4 rounded-xl flex justify-between items-center shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
+            <div>
+                <span class="bg-[#ff003c] text-white text-[9px] font-bold px-2 py-1 rounded-sm uppercase tracking-widest mb-1 inline-block">Vista Panorámica</span>
+                <h2 class="text-white font-black uppercase tracking-wider text-sm">Zona VIP Platinum</h2>
+            </div>
+            <a href="index.html" class="bg-[#ff003c] text-white px-4 py-2 rounded-sm font-bold text-[10px] uppercase tracking-widest hover:bg-red-700 transition cursor-pointer">
+                Reservar
+            </a>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR DONDE SE DIBUJA EL 3D -->
+    <div id="panorama"></div>
+
+    <script>
+        // Aquí insertamos la URL RAW de tu imagen en el repositorio
+        const imageUrl = "https://raw.githubusercontent.com/tecnotradepty/Red/5eaa68232f7ea27b929ef879b4d5becc4658e986/imagenes/20260724_173452.jpg";
+
+        // Inicializar el visor
+        pannellum.viewer('panorama', {
+            "type": "equirectangular",
+            "panorama": imageUrl,
+            "autoLoad": true,
+            "autoRotate": -1.5, // Hace que la imagen gire sola hacia la izquierda
+            "compass": false,
+            "showZoomCtrl": false,
+            "keyboardZoom": false,
+            "mouseZoom": true, // Permite al usuario hacer "pinch" en el celular para acercar
+            "pitch": 0,
+            "yaw": 0
+        });
+    </script>
+</body>
+</html>
