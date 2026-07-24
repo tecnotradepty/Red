@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-width=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RED Casco | Menú Interactivo</title>
+    <!-- Tailwind CSS para estilizado rápido -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        redNeon: '#ff003c',
+                        darkBg: '#0a0a0a',
+                        cardBg: '#1a1a1a'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0a0a0a; color: white; -webkit-tap-highlight-color: transparent; }
+        .neon-text { text-shadow: 0 0 10px rgba(255, 0, 60, 0.7); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="pb-24">
+
+    <!-- Header / Info de Mesa -->
+    <header class="bg-cardBg sticky top-0 z-50 border-b border-redNeon/30 p-4 shadow-lg shadow-redNeon/10">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold text-redNeon tracking-wider neon-text">RED CASCO</h1>
+                <p class="text-xs text-gray-400">Mesa 14 • <span class="text-yellow-500 font-bold"><i class="fas fa-crown"></i> VIP Platinum</span></p>
+            </div>
+            <div class="text-right">
+                <p class="text-xs text-gray-400">Saldo Consumible</p>
+                <p class="text-xl font-bold text-green-400" id="saldo-display">$250.00</p>
+            </div>
+        </div>
+        
+        <!-- Categorías -->
+        <div class="flex space-x-4 overflow-x-auto hide-scrollbar mt-4 pb-2">
+            <button class="bg-redNeon text-white px-4 py-1 rounded-full text-sm font-bold whitespace-nowrap">Botellas</button>
+            <button class="bg-gray-800 text-gray-300 px-4 py-1 rounded-full text-sm font-bold whitespace-nowrap">Mixers</button>
+            <button class="bg-gray-800 text-gray-300 px-4 py-1 rounded-full text-sm font-bold whitespace-nowrap">Cervezas</button>
+            <button class="bg-gray-800 text-gray-300 px-4 py-1 rounded-full text-sm font-bold whitespace-nowrap">Hookah</button>
+        </div>
+    </header>
+
+    <!-- Grid de Productos -->
+    <main class="p-4 grid grid-cols-2 gap-4" id="product-grid">
+        <!-- Renderizado dinámico vía JS -->
+    </main>
+
+    <!-- Barra Inferior de Carrito -->
+    <div class="fixed bottom-0 w-full bg-cardBg border-t border-redNeon/50 p-4 flex justify-between items-center z-50">
+        <div>
+            <p class="text-sm text-gray-400">Total Pedido</p>
+            <p class="text-2xl font-bold text-white" id="cart-total">$0.00</p>
+        </div>
+        <div class="flex space-x-2">
+            <button onclick="enviarPedidoMesa()" class="bg-gray-800 text-white px-4 py-3 rounded-lg font-bold text-sm shadow-md">
+                <i class="fas fa-bell mr-1"></i> A la mesa
+            </button>
+            <button onclick="abrirModalQR()" class="bg-redNeon text-white px-4 py-3 rounded-lg font-bold text-sm shadow-lg shadow-redNeon/40">
+                <i class="fas fa-qrcode mr-1"></i> Fast Pass
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal QR (Fast Pass) -->
+    <div id="qr-modal" class="fixed inset-0 bg-black/90 z-[60] hidden flex-col justify-center items-center p-6">
+        <h2 class="text-2xl font-bold text-white mb-2 text-center">Tu Fast Pass</h2>
+        <p class="text-gray-400 text-center mb-6 text-sm">Muestra este código en la barra principal para retirar tu pedido al instante.</p>
+        
+        <div class="bg-white p-4 rounded-xl mb-6">
+            <div id="qrcode"></div>
+        </div>
+        
+        <div class="w-full max-w-sm bg-cardBg p-4 rounded-lg mb-6 border border-gray-800">
+            <h3 class="font-bold text-redNeon border-b border-gray-800 pb-2 mb-2">Resumen</h3>
+            <ul id="qr-summary" class="text-sm text-gray-300 space-y-1"></ul>
+        </div>
+
+        <button onclick="cerrarModalQR()" class="bg-gray-800 text-white w-full max-w-sm py-3 rounded-lg font-bold">Cerrar</button>
+    </div>
+
+    <script>
+        // Base de datos simulada
+        const productos = [
+            { id: 1, nombre: 'Buchanans 12', precio: 120, img: 'https://images.unsplash.com/photo-1569529465841-dfecdab7503b?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
+            { id: 2, nombre: 'Tito\'s Vodka', precio: 80, img: 'https://images.unsplash.com/photo-1614316346023-0868f7f2b1d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
+            { id: 3, nombre: 'Ron Abuelo 12', precio: 70, img: 'https://images.unsplash.com/photo-1615887023516-9bfa02b9e6f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
+            { id: 4, nombre: 'Red Bull', precio: 6, img: 'https://images.unsplash.com/photo-1622543925917-763c34d1a86e?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
+            { id: 5, nombre: 'Coca Cola', precio: 3, img: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
+            { id: 6, nombre: 'Agua Embotellada', precio: 3, img: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' }
+        ];
+
+        let carrito = {};
+        let saldoVIP = 250;
+
+        // Renderizar productos
+        const grid = document.getElementById('product-grid');
+        productos.forEach(prod => {
+            grid.innerHTML += `
+                <div class="bg-cardBg rounded-xl overflow-hidden border border-gray-800 shadow-md flex flex-col">
+                    <div class="h-32 bg-gray-900 relative">
+                        <!-- Placeholder visual para imagen -->
+                        <img src="${prod.img}" class="w-full h-full object-cover opacity-60" alt="${prod.nombre}">
+                        <div class="absolute top-2 right-2 bg-black/80 px-2 py-1 rounded text-xs font-bold text-green-400">$${prod.precio}</div>
+                    </div>
+                    <div class="p-3 flex-grow flex flex-col justify-between">
+                        <h3 class="text-sm font-bold mb-2 line-clamp-2">${prod.nombre}</h3>
+                        <div class="flex items-center justify-between bg-black rounded-lg p-1">
+                            <button onclick="modificarCarrito(${prod.id}, -1)" class="w-8 h-8 rounded-md bg-gray-800 text-white font-bold">-</button>
+                            <span id="qty-${prod.id}" class="font-bold text-sm">0</span>
+                            <button onclick="modificarCarrito(${prod.id}, 1)" class="w-8 h-8 rounded-md bg-redNeon text-white font-bold">+</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        function modificarCarrito(id, delta) {
+            if (!carrito[id]) carrito[id] = 0;
+            carrito[id] += delta;
+            if (carrito[id] < 0) carrito[id] = 0;
+            
+            document.getElementById(`qty-${id}`).innerText = carrito[id];
+            actualizarTotales();
+        }
+
+        function actualizarTotales() {
+            let total = 0;
+            productos.forEach(prod => {
+                if (carrito[prod.id]) total += carrito[prod.id] * prod.precio;
+            });
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+            
+            // Simulación visual del saldo VIP
+            let saldoRestante = saldoVIP - total;
+            const saldoEl = document.getElementById('saldo-display');
+            saldoEl.innerText = `$${saldoRestante.toFixed(2)}`;
+            saldoEl.className = saldoRestante >= 0 ? "text-xl font-bold text-green-400" : "text-xl font-bold text-red-500";
+        }
+
+        // Simula enviar a la cola del backend (LocalStorage)
+        function enviarPedidoMesa() {
+            let pedidoActivo = crearObjetoPedido("Mesa");
+            if(pedidoActivo.items.length === 0) return alert("El carrito está vacío");
+
+            // Guardar en LocalStorage para que el admin.html lo lea
+            let pedidosGlobales = JSON.parse(localStorage.getItem('red_pedidos')) || [];
+            pedidosGlobales.push(pedidoActivo);
+            localStorage.setItem('red_pedidos', JSON.stringify(pedidosGlobales));
+            
+            // Disparar evento para actualizar otras pestañas (magia del prototipo)
+            window.dispatchEvent(new Event('storage'));
+
+            alert("¡Pedido enviado a la barra! En breve te lo llevan a la Mesa 14.");
+            resetearCarrito();
+        }
+
+        function crearObjetoPedido(tipo) {
+            let items = [];
+            let total = 0;
+            productos.forEach(prod => {
+                if (carrito[prod.id] > 0) {
+                    items.push({ nombre: prod.nombre, cant: carrito[prod.id], precio: prod.precio });
+                    total += carrito[prod.id] * prod.precio;
+                }
+            });
+            return {
+                id: 'ORD-' + Math.floor(Math.random() * 10000),
+                mesa: "14",
+                tipo: tipo, // "Mesa" o "QR_Barra"
+                items: items,
+                total: total,
+                timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+            };
+        }
+
+        function abrirModalQR() {
+            let pedidoActivo = crearObjetoPedido("QR_Barra");
+            if(pedidoActivo.items.length === 0) return alert("Agrega productos para generar el Fast Pass");
+
+            document.getElementById('qr-modal').classList.remove('hidden');
+            document.getElementById('qr-modal').classList.add('flex');
+            
+            // Llenar resumen
+            const summary = document.getElementById('qr-summary');
+            summary.innerHTML = '';
+            pedidoActivo.items.forEach(item => {
+                summary.innerHTML += `<li>${item.cant}x ${item.nombre} <span class="float-right">$${item.precio * item.cant}</span></li>`;
+            });
+            summary.innerHTML += `<li class="font-bold text-white border-t border-gray-700 mt-2 pt-2">Total: <span class="float-right text-redNeon">$${pedidoActivo.total}</span></li>`;
+
+            // Generar código QR real con la data JSON
+            document.getElementById('qrcode').innerHTML = '';
+            new QRCode(document.getElementById("qrcode"), {
+                text: JSON.stringify(pedidoActivo),
+                width: 200,
+                height: 200,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
+
+        function cerrarModalQR() {
+            document.getElementById('qr-modal').classList.add('hidden');
+            document.getElementById('qr-modal').classList.remove('flex');
+            resetearCarrito();
+        }
+
+        function resetearCarrito() {
+            carrito = {};
+            productos.forEach(prod => { document.getElementById(`qty-${prod.id}`).innerText = "0"; });
+            actualizarTotales();
+        }
+    </script>
+</body>
+</html>
