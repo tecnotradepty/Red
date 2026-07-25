@@ -3,315 +3,359 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-width=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RED Casco | Experiencia Oficial</title>
+    <title>RED Casco | La Experiencia Suprema</title>
+    
+    <!-- Tailwind CSS (Solo para utilidades rápidas estructurales) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
     
-    <script>
-        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Montserrat', 'sans-serif'] }, colors: { redNeon: '#ff003c', darkBg: '#050505' } } } }
-    </script>
+    <!-- Fuentes Google Fonts (OMNIA Style) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
-        body { background-color: #050505; color: white; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
-        .glass-panel { background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
-        .nav-active { color: #ff003c; border-top: 2px solid #ff003c; }
-        .animate-fade { animation: fadeIn 0.3s ease-in-out; }
+        /* ========================================== */
+        /* SISTEMA DE DISEÑO VISUAL (OMNIA x RED)     */
+        /* ========================================== */
+        :root {
+            --bg-primary: #050505;
+            --gold-primary: #d4af37;
+            --gold-light: #f3e5ab;
+            --gold-dark: #aa7c11;
+            
+            --neon-red: #ff003c; /* Adaptación a RED Casco */
+            --neon-purple: #8b5cf6;
+            --neon-cyan: #06b6d4;
+            
+            --text-pure: #ffffff;
+            --text-gold: #e2c974;
+            
+            --glass-bg: rgba(12, 12, 14, 0.65);
+            --glass-border: rgba(212, 175, 55, 0.15);
+            --glass-border-hover: rgba(212, 175, 55, 0.45);
+            
+            --font-headings: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body { background-color: var(--bg-primary); color: var(--text-pure); font-family: var(--font-body); overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        /* Transición del Sidebar */
-        #sidebar { transition: transform 0.3s ease-in-out; }
+        .animate-fade { animation: fadeIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 🌌 Fondo Animado de Iluminación Ambiental */
+        .kinetic-ambient-glow {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 0, 60, 0.12) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+            filter: blur(80px); animation: kinetic-lights 20s infinite alternate ease-in-out; pointer-events: none;
+        }
+        @keyframes kinetic-lights {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { background-color: rgba(6, 182, 212, 0.05); transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        /* 🎟️ Tarjeta Premium Glassmorphic */
+        .card-vip {
+            background: var(--glass-bg); backdrop-filter: blur(16px) saturate(130%); -webkit-backdrop-filter: blur(16px) saturate(130%);
+            border: 1px solid var(--glass-border); border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden;
+        }
+        .card-vip::before {
+            content: ''; position: absolute; top: 0; left: -50%; width: 200%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.08), transparent);
+            transform: rotate(30deg); transition: 0.8s; pointer-events: none;
+        }
+        .card-vip:hover { border-color: var(--glass-border-hover); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 0, 60, 0.15); transform: translateY(-5px); }
+        .card-vip:hover::before { left: 100%; }
+
+        /* 🏷️ Títulos Estilo Omnia */
+        .title-premium { font-family: var(--font-headings); font-weight: 900; text-transform: uppercase; letter-spacing: 4px; line-height: 1.1; }
+        .title-sub-gold { font-family: var(--font-headings); font-weight: 600; text-transform: uppercase; letter-spacing: 3px; color: var(--text-gold); }
+
+        /* 🔘 Botones de Acción */
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold-primary) 50%, var(--gold-light) 100%);
+            color: #000000; font-family: var(--font-headings); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;
+            border-radius: 4px; padding: 14px 28px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25); display: inline-block; text-align: center;
+        }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5), 0 0 15px rgba(243, 229, 171, 0.3); }
+
+        .btn-neon-outline {
+            background: transparent; color: var(--text-pure); font-family: var(--font-headings); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+            border: 1px solid var(--neon-red); border-radius: 4px; padding: 12px 26px; transition: all 0.3s ease; display: inline-block; text-align: center;
+        }
+        .btn-neon-outline:hover { background: var(--neon-red); box-shadow: 0 0 20px var(--neon-red), 0 0 10px rgba(255, 0, 60, 0.3); }
+
+        /* Sidebar Overlay */
+        #sidebar { transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .sidebar-open { transform: translateX(0); }
         .sidebar-closed { transform: translateX(100%); }
+        .nav-active i { color: var(--gold-primary); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
     </style>
 </head>
-<body class="pb-20 font-sans">
+<body class="pb-24">
+
+    <!-- Fondo Ambient -->
+    <div class="kinetic-ambient-glow"></div>
 
     <!-- HEADER GLOBAL -->
-    <header class="fixed top-0 w-full z-40 glass-panel p-4 flex justify-between items-center transition-all duration-300">
-        <h1 class="text-2xl font-black text-white tracking-[0.2em]">RED<span class="text-redNeon">.</span></h1>
-        <button onclick="toggleSidebar()" class="text-white text-xl p-2"><i class="fas fa-bars"></i></button>
+    <header class="fixed top-0 w-full z-40 bg-black/40 backdrop-blur-md border-b border-white/5 p-5 flex justify-between items-center transition-all duration-300">
+        <h1 class="text-2xl title-premium tracking-[0.3em]">RED<span style="color: var(--neon-red);">.</span></h1>
+        <button onclick="toggleSidebar()" class="text-white text-xl p-2 hover:text-gray-300 transition"><i class="fas fa-bars"></i></button>
     </header>
 
     <!-- SIDEBAR (Menú Hamburguesa) -->
-    <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden backdrop-blur-sm"></div>
-    <aside id="sidebar" class="fixed top-0 right-0 h-full w-3/4 max-w-sm bg-[#111] z-50 sidebar-closed border-l border-white/10 shadow-2xl flex flex-col">
-        <div class="p-6 flex justify-between items-center border-b border-white/10">
-            <h2 class="text-xl font-black tracking-widest">MENÚ</h2>
-            <button onclick="toggleSidebar()" class="text-gray-400 text-2xl"><i class="fas fa-times"></i></button>
+    <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/80 z-40 hidden backdrop-blur-md transition-opacity"></div>
+    <aside id="sidebar" class="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-[#0a0a0a] z-50 sidebar-closed border-l border-white/5 shadow-2xl flex flex-col">
+        <div class="p-8 flex justify-between items-center border-b border-white/5">
+            <h2 class="text-lg title-sub-gold">EXPLORAR</h2>
+            <button onclick="toggleSidebar()" class="text-gray-400 text-2xl hover:text-white"><i class="fas fa-times"></i></button>
         </div>
-        <div class="p-6 flex flex-col space-y-6 flex-grow">
-            <!-- Enlace a tu HTML de formulario -->
-            <a href="formulario.html" class="flex items-center text-sm font-bold uppercase tracking-widest hover:text-redNeon transition">
-                <i class="fas fa-handshake w-8 text-redNeon"></i> Trabaja / Colabora con Nosotros
+        <div class="p-8 flex flex-col space-y-8 flex-grow">
+            <a href="formulario.html" class="flex items-center text-sm font-headings font-bold uppercase tracking-widest hover:text-yellow-500 transition">
+                <i class="fas fa-handshake w-8" style="color: var(--gold-primary);"></i> Colaboraciones
             </a>
-            <a href="#" class="flex items-center text-sm font-bold uppercase tracking-widest hover:text-redNeon transition">
-                <i class="fas fa-camera-retro w-8 text-redNeon"></i> Galería de Eventos
+            <a href="#" class="flex items-center text-sm font-headings font-bold uppercase tracking-widest hover:text-yellow-500 transition">
+                <i class="fas fa-camera-retro w-8" style="color: var(--gold-primary);"></i> Galería Visual
             </a>
-            <a href="#" class="flex items-center text-sm font-bold uppercase tracking-widest hover:text-redNeon transition">
-                <i class="fas fa-glass-martini-alt w-8 text-redNeon"></i> Menú de Botellas (PDF)
-            </a>
-            <a href="#" class="flex items-center text-sm font-bold uppercase tracking-widest hover:text-redNeon transition">
-                <i class="fas fa-tshirt w-8 text-redNeon"></i> Dress Code y Políticas
+            <a href="#" class="flex items-center text-sm font-headings font-bold uppercase tracking-widest hover:text-yellow-500 transition">
+                <i class="fas fa-tshirt w-8" style="color: var(--gold-primary);"></i> Dress Code
             </a>
         </div>
-        <div class="p-6 border-t border-white/10 text-center">
-            <p class="text-[10px] text-gray-500 uppercase tracking-widest">Parranda Group S.A.</p>
+        <div class="p-8 border-t border-white/5 text-center">
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest font-headings">Operado por Parranda Group S.A.<br><span class="text-xs font-bold mt-2 inline-block text-white">TECHEXCHANGE PTY</span></p>
         </div>
     </aside>
 
     <!-- ========================================== -->
-    <!-- VISTA 1: PORTAL PRINCIPAL                  -->
+    <!-- VISTA 1: PORTAL HERO & EVENTOS             -->
     <!-- ========================================== -->
     <main id="view-portal" class="block animate-fade pb-10">
-        <div class="relative h-[70vh] w-full">
-            <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" class="w-full h-full object-cover" alt="Club Hero">
-            <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-darkBg/60 to-transparent"></div>
+        
+        <!-- Hero Section -->
+        <div class="relative h-[85vh] w-full flex items-end pb-24 border-b border-white/10">
+            <!-- Simulación de Video / Foto Hero -->
+            <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="absolute inset-0 w-full h-full object-cover" alt="Club Hero">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/60 to-transparent"></div>
             
-            <div class="absolute bottom-10 left-6 right-6">
-                <span class="bg-redNeon text-white text-[10px] font-bold px-3 py-1 rounded-sm uppercase tracking-widest mb-3 inline-block">Viernes, 24 Jul</span>
-                <h2 class="text-5xl font-black uppercase tracking-tight mb-1">Modo Avión</h2>
-                <p class="text-gray-300 text-sm tracking-wide mb-6">DJ Aníbal & DJ Terco • Open Bar 12:00 AM</p>
+            <div class="relative z-10 px-6 w-full text-center">
+                <span class="title-sub-gold text-[10px] mb-4 inline-block drop-shadow-lg">La Experiencia Suprema</span>
+                <h2 class="title-premium text-5xl md:text-6xl mb-6">REDEFINIENDO<br>LA NOCHE</h2>
                 
-                <div class="flex space-x-3">
-                    <a href="ticket.html" class="flex-1 bg-white text-black py-4 rounded-sm font-black text-sm uppercase tracking-wider text-center">Tickets</a>
-                    <a href="vip.html" class="flex-1 glass-panel text-white py-4 rounded-sm font-bold text-sm uppercase tracking-wider border border-white/20 text-center">VIP Table</a>
+                <div class="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4 max-w-md mx-auto">
+                    <a href="vip.html" class="btn-gold w-full">Reservar Mesa VIP</a>
+                    <a href="ticket.html" class="btn-neon-outline w-full">Ver Próximos DJs</a>
                 </div>
             </div>
         </div>
 
-        <div class="px-6 py-8">
-            <div class="glass-panel rounded-xl p-6 relative overflow-hidden border border-redNeon/30">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-redNeon/20 rounded-full blur-3xl"></div>
-                <h3 class="text-xl font-black uppercase mb-2">Entorno Inmersivo</h3>
-                <p class="text-xs text-gray-400 mb-6 w-4/5">Visualiza tu mesa antes de reservar. Navega por nuestros niveles VIP.</p>
-                <a href="tour.html" class="bg-redNeon/10 text-redNeon border border-redNeon/50 px-5 py-3 rounded-sm text-xs font-bold uppercase tracking-wider flex items-center justify-center w-full">
-                    <i class="fas fa-cube mr-2"></i> Iniciar Tour 3D
-                </a>
+        <!-- Próximos Eventos (Grid) -->
+        <div class="px-6 py-12">
+            <h3 class="title-sub-gold text-sm mb-6 text-center">Lineup Oficial</h3>
+            
+            <div class="space-y-6">
+                <!-- Tarjeta Evento 1 -->
+                <div class="card-vip p-0 flex flex-col group cursor-pointer" onclick="window.location.href='ticket.html'">
+                    <div class="h-48 relative overflow-hidden rounded-t-xl">
+                        <img src="https://images.unsplash.com/photo-1558317751-bc3ed6f85f72?w=800&q=80" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0c0c0e] to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <span class="title-sub-gold text-[10px] block mb-2">Viernes, 24 Jul</span>
+                        <h4 class="title-premium text-2xl mb-1">MODO AVIÓN</h4>
+                        <p class="text-xs text-gray-400 font-body mb-4">Reggaeton & Urban Vibes</p>
+                        <div class="flex justify-between items-center border-t border-white/5 pt-4">
+                            <span class="font-headings font-bold text-white text-lg">$20.00</span>
+                            <span class="text-[10px] font-headings font-bold uppercase tracking-widest text-gray-400 group-hover:text-gold transition">Adquirir <i class="fas fa-chevron-right ml-1"></i></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <footer class="border-t border-white/10 pt-8 pb-10 text-center">
-            <p class="text-[10px] text-gray-600 tracking-widest">
-                OPERADO POR PARRANDA GROUP S.A. <br><br>
-                <span class="text-redNeon/70 font-bold">POWERED BY TECHEXCHANGE PTY</span>
-            </p>
-        </footer>
+
+        <!-- Call to Action 3D Tour -->
+        <div class="px-6 pb-12 text-center">
+            <div class="card-vip p-8 bg-[url('https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?w=800&q=80')] bg-cover bg-center bg-blend-overlay" style="background-color: rgba(0,0,0,0.8);">
+                <i class="fas fa-cube text-3xl mb-4" style="color: var(--gold-primary);"></i>
+                <h3 class="title-premium text-xl mb-2">Explora el Entorno</h3>
+                <p class="text-xs text-gray-300 font-body mb-6 w-4/5 mx-auto">Visualiza las zonas Gold y Platinum en nuestro recorrido interactivo de 360°.</p>
+                <a href="tour.html" class="btn-neon-outline w-full text-xs">Iniciar Tour Inmersivo</a>
+            </div>
+        </div>
     </main>
 
     <!-- ========================================== -->
-    <!-- VISTA 2: IN-CLUB (Hub de Pedidos)          -->
+    <!-- VISTA 2: IN-CLUB (BARRA VS MESA)           -->
     <!-- ========================================== -->
-    <main id="view-club" class="hidden animate-fade pt-24 px-6 min-h-screen">
+    <main id="view-club" class="hidden animate-fade pt-28 px-6 min-h-screen">
         
-        <!-- Paso 1: Selección de Modalidad -->
-        <div id="club-step-1" class="block animate-fade text-center mt-10">
-            <i class="fas fa-concierge-bell text-4xl text-redNeon mb-4"></i>
-            <h2 class="text-2xl font-black uppercase mb-2">¿Cómo deseas pedir?</h2>
-            <p class="text-sm text-gray-400 mb-10">Selecciona tu ubicación actual para ver el menú.</p>
+        <div id="club-step-1" class="block text-center mt-6">
+            <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-white/10 flex items-center justify-center bg-white/5">
+                <i class="fas fa-concierge-bell text-2xl" style="color: var(--gold-primary);"></i>
+            </div>
+            <h2 class="title-premium text-2xl mb-3">Servicio Digital</h2>
+            <p class="text-sm text-gray-400 font-body mb-10">Selecciona tu modalidad de pedido para acceder al menú premium.</p>
             
             <div class="space-y-4">
-                <button onclick="setModalidad('barra')" class="w-full glass-panel py-5 rounded-xl font-black text-sm uppercase tracking-widest border border-white/20 flex items-center justify-center">
-                    <i class="fas fa-cocktail text-xl mr-3 text-redNeon"></i> Pedir en Barra (Fast Pass)
+                <button onclick="setModalidad('barra')" class="w-full card-vip py-6 flex flex-col items-center justify-center text-center group">
+                    <i class="fas fa-cocktail text-2xl mb-3" style="color: var(--neon-cyan);"></i>
+                    <span class="font-headings font-bold uppercase tracking-widest text-sm group-hover:text-white transition">Fast Pass Barra</span>
                 </button>
-                <button onclick="mostrarLoginMesa()" class="w-full glass-panel py-5 rounded-xl font-black text-sm uppercase tracking-widest border border-white/20 flex items-center justify-center">
-                    <i class="fas fa-couch text-xl mr-3 text-redNeon"></i> Pedir a mi Mesa
+                <button onclick="mostrarLoginMesa()" class="w-full card-vip py-6 flex flex-col items-center justify-center text-center group">
+                    <i class="fas fa-couch text-2xl mb-3" style="color: var(--gold-primary);"></i>
+                    <span class="font-headings font-bold uppercase tracking-widest text-sm group-hover:text-white transition">Servicio a Mesa</span>
                 </button>
             </div>
         </div>
 
-        <!-- Paso 2: Login de Mesa (Solo si eligió Mesa) -->
-        <div id="club-step-2" class="hidden animate-fade text-center mt-10">
-            <button onclick="volverAClubHome()" class="text-gray-500 mb-6 flex items-center text-xs uppercase tracking-widest"><i class="fas fa-arrow-left mr-2"></i> Volver</button>
-            <h2 class="text-2xl font-black uppercase mb-2">Conecta tu Mesa</h2>
-            <p class="text-sm text-gray-400 mb-8">Escanea el QR en tu mesa o ingresa el código.</p>
+        <div id="club-step-2" class="hidden text-center mt-6">
+            <button onclick="volverAClubHome()" class="text-gray-500 mb-8 flex items-center text-[10px] uppercase font-bold tracking-widest hover:text-white"><i class="fas fa-arrow-left mr-2"></i> Volver</button>
+            <h2 class="title-premium text-2xl mb-3">Conecta tu Mesa</h2>
+            <p class="text-sm text-gray-400 font-body mb-8">Usa tu cámara o ingresa el código asignado por tu Host.</p>
             
-            <button onclick="alert('Abriendo cámara para escanear...')" class="w-full bg-[#111] border border-white/10 py-4 rounded-xl font-bold mb-6 flex items-center justify-center">
-                <i class="fas fa-qrcode text-xl mr-2 text-white"></i> Escanear QR
-            </button>
-            
-            <div class="relative flex py-2 items-center mb-6">
-                <div class="flex-grow border-t border-white/10"></div>
-                <span class="flex-shrink-0 mx-4 text-gray-500 text-xs uppercase">o ingresa el código</span>
-                <div class="flex-grow border-t border-white/10"></div>
-            </div>
-
-            <input type="text" id="codigo-mesa" placeholder="Ej: mesavip1" class="w-full bg-[#111] border border-white/10 text-white text-center rounded-xl p-4 text-lg font-bold uppercase focus:outline-none focus:border-redNeon transition mb-4">
-            <button onclick="validarMesa()" class="w-full bg-redNeon text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-lg shadow-redNeon/30">
-                Conectar
-            </button>
+            <input type="text" id="codigo-mesa" placeholder="Ej: mesavip1" class="w-full bg-black/50 border border-white/10 text-white text-center rounded-lg p-5 text-lg font-headings font-bold uppercase focus:outline-none focus:border-yellow-600 transition mb-6">
+            <button onclick="validarMesa()" class="btn-gold w-full">Autorizar Dispositivo</button>
         </div>
 
-        <!-- Paso 3: Catálogo In-Club -->
-        <div id="club-step-3" class="hidden animate-fade pb-32">
-            <div class="flex justify-between items-end mb-6 border-b border-white/10 pb-4">
+        <div id="club-step-3" class="hidden pb-32">
+            <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-4">
                 <div>
-                    <span class="text-[10px] text-gray-400 uppercase tracking-widest" id="etiqueta-modalidad">Modalidad</span>
-                    <h2 class="text-xl font-black uppercase" id="titulo-modalidad">Menú</h2>
+                    <span class="title-sub-gold text-[9px]" id="etiqueta-modalidad">Modalidad</span>
+                    <h2 class="title-premium text-xl mt-1" id="titulo-modalidad">Menú</h2>
                 </div>
-                <button onclick="volverAClubHome()" class="text-redNeon text-xs font-bold uppercase"><i class="fas fa-sync-alt mr-1"></i> Cambiar</button>
+                <button onclick="volverAClubHome()" class="text-gray-400 text-[10px] font-bold uppercase tracking-widest hover:text-white"><i class="fas fa-sync-alt mr-1"></i> Cambiar</button>
             </div>
 
-            <div class="grid grid-cols-2 gap-4" id="product-grid">
-                <!-- Se llena con JS -->
-            </div>
+            <!-- Catálogo Estilo OMNIA -->
+            <div class="grid grid-cols-2 gap-4" id="product-grid"></div>
             
-            <!-- Bottom Bar del Carrito -->
-            <div class="fixed bottom-[65px] left-0 w-full glass-panel border-t border-white/10 p-4 flex justify-between items-center z-30">
+            <!-- Sticky Booking Bar para Carrito -->
+            <div class="fixed bottom-[80px] left-4 right-4 card-vip p-4 flex justify-between items-center z-30 shadow-2xl">
                 <div>
-                    <p class="text-[10px] text-gray-400 uppercase tracking-widest">Total</p>
-                    <p class="text-2xl font-black text-white" id="cart-total">$0</p>
+                    <p class="title-sub-gold text-[8px]">Monto Actual</p>
+                    <p class="text-xl font-headings font-black text-white" id="cart-total">$0</p>
                 </div>
-                <!-- Este botón cambia según la modalidad -->
-                <button id="btn-checkout" onclick="procesarCheckout()" class="bg-white text-black px-6 py-3 rounded-sm font-black text-xs uppercase tracking-wider">
+                <button id="btn-checkout" onclick="procesarCheckout()" class="btn-gold py-2 px-6 text-[10px]">
                     Continuar
                 </button>
             </div>
         </div>
     </main>
 
-    <!-- Modales del In-Club -->
-    <!-- Modal 1: Generador de QR (Para Barra) -->
+    <!-- Modales In-Club -->
     <div id="qr-modal" class="fixed inset-0 bg-black/95 z-[70] hidden flex-col justify-center items-center p-6 backdrop-blur-xl">
-        <h2 class="text-2xl font-black text-white mb-2 uppercase tracking-tight">Fast Pass</h2>
-        <p class="text-gray-400 text-center mb-6 text-sm">Muestra esto al cajero en la barra.</p>
-        <div class="bg-white p-4 rounded-xl mb-6 border-4 border-redNeon shadow-[0_0_30px_rgba(255,0,60,0.3)]"><div id="qrcode"></div></div>
-        <button onclick="cerrarModal('qr-modal')" class="glass-panel text-white w-full max-w-sm py-4 rounded-sm font-bold uppercase tracking-widest border border-white/20">Cerrar</button>
+        <h2 class="title-premium text-2xl mb-2 text-center">Pase Generado</h2>
+        <p class="text-gray-400 font-body text-center mb-8 text-sm">Presenta este código al staff de la barra.</p>
+        <div class="bg-white p-4 rounded-xl mb-8 border-2" style="border-color: var(--neon-cyan); box-shadow: 0 0 30px rgba(6,182,212,0.3);"><div id="qrcode"></div></div>
+        <button onclick="cerrarModal('qr-modal')" class="btn-neon-outline w-full max-w-sm">Cerrar Pase</button>
     </div>
 
-    <!-- Modal 2: Pasarela de Pago Simulada (Para Mesa) -->
-    <div id="payment-modal" class="fixed inset-0 bg-black/95 z-[70] hidden flex-col justify-end">
-        <div class="bg-[#111] rounded-t-3xl p-6 border-t border-white/10 pb-12 animate-fade">
-            <h2 class="text-xl font-black uppercase mb-6 flex justify-between">Pagar Pedido <i class="fab fa-cc-visa text-blue-500"></i></h2>
-            
-            <div class="bg-[#050505] p-4 rounded-lg mb-4 border border-white/5">
-                <p class="text-xs text-gray-400 uppercase mb-1">Monto a cobrar</p>
-                <p class="text-3xl font-black text-white" id="payment-amount">$0.00</p>
+    <div id="payment-modal" class="fixed inset-0 bg-black/90 z-[70] hidden flex-col justify-end backdrop-blur-md">
+        <div class="card-vip rounded-t-3xl rounded-b-none border-b-0 p-8 w-full animate-fade">
+            <h2 class="title-premium text-xl mb-8 flex justify-between items-center">Confirmar Orden <i class="fab fa-cc-visa text-2xl"></i></h2>
+            <div class="bg-black/50 p-6 rounded-lg mb-6 border border-white/5 text-center">
+                <p class="title-sub-gold text-[9px] mb-2">Total a cargar</p>
+                <p class="text-4xl font-headings font-black text-white" id="payment-amount">$0.00</p>
             </div>
-
-            <div class="space-y-4 mb-6">
-                <input type="text" value="**** **** **** 4242" disabled class="w-full bg-[#1a1a1a] border border-white/10 text-white rounded-lg p-4 text-sm font-bold">
-                <button id="btn-procesar-pago" onclick="simularPago()" class="w-full bg-redNeon text-white py-4 rounded-lg font-black text-sm uppercase tracking-wider shadow-[0_0_15px_rgba(255,0,60,0.3)]">
-                    Confirmar Pago
-                </button>
-            </div>
+            <button id="btn-procesar-pago" onclick="simularPago()" class="btn-gold w-full py-4 text-sm">Procesar Cargo Seguro</button>
+            <button onclick="cerrarModal('payment-modal')" class="w-full mt-4 text-[10px] text-gray-500 font-bold uppercase tracking-widest">Cancelar</button>
         </div>
     </div>
 
     <!-- ========================================== -->
-    <!-- VISTA 3: PERFIL Y AUTENTICACIÓN            -->
+    <!-- VISTA 3: PERFIL DE AUTENTICACIÓN           -->
     <!-- ========================================== -->
-    <main id="view-profile" class="hidden animate-fade pt-24 px-6 min-h-screen flex flex-col items-center">
+    <main id="view-profile" class="hidden animate-fade pt-28 px-6 min-h-screen flex flex-col items-center">
         
-        <!-- Formulario Login -->
         <div id="profile-login" class="w-full max-w-sm mt-10">
-            <div class="text-center mb-8">
-                <i class="fas fa-user-circle text-5xl text-gray-600 mb-4"></i>
-                <h2 class="text-2xl font-black uppercase tracking-wider">Acceso VIP</h2>
-                <p class="text-xs text-gray-500 mt-2">Usa redcasco / 1234 para probar</p>
+            <div class="text-center mb-10">
+                <div class="w-20 h-20 mx-auto rounded-full border border-white/10 flex items-center justify-center bg-white/5 mb-6">
+                    <i class="fas fa-lock text-2xl" style="color: var(--gold-primary);"></i>
+                </div>
+                <h2 class="title-premium text-2xl mb-2">Bóveda VIP</h2>
+                <p class="text-xs text-gray-500 font-body">Ingresa tus credenciales para acceder a tus reservas y códigos.</p>
             </div>
             
             <div class="space-y-4">
-                <input type="text" id="login-user" placeholder="Usuario" class="w-full bg-[#111] border border-white/10 text-white rounded-xl p-4 text-sm focus:border-redNeon transition outline-none">
-                <input type="password" id="login-pass" placeholder="Contraseña" class="w-full bg-[#111] border border-white/10 text-white rounded-xl p-4 text-sm focus:border-redNeon transition outline-none">
-                <button onclick="validarLogin()" class="w-full bg-white text-black py-4 rounded-xl font-black uppercase tracking-widest mt-4">
-                    Iniciar Sesión
-                </button>
+                <input type="text" id="login-user" placeholder="Usuario" class="w-full bg-black/50 border border-white/10 text-white rounded-lg p-5 text-sm font-headings font-bold focus:outline-none focus:border-yellow-600 transition">
+                <input type="password" id="login-pass" placeholder="Contraseña" class="w-full bg-black/50 border border-white/10 text-white rounded-lg p-5 text-sm font-headings font-bold focus:outline-none focus:border-yellow-600 transition">
+                <button onclick="validarLogin()" class="btn-gold w-full mt-4">Desbloquear Acceso</button>
             </div>
         </div>
 
-        <!-- Dashboard del Usuario (Oculto hasta loguear) -->
         <div id="profile-dashboard" class="w-full hidden pb-32">
-            <div class="flex items-center mb-8">
-                <div class="w-16 h-16 rounded-full bg-redNeon/20 border-2 border-redNeon flex items-center justify-center text-2xl font-black mr-4">R</div>
+            <div class="flex items-center mb-10 pb-6 border-b border-white/10">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black mr-5 font-headings" style="border: 2px solid var(--gold-primary); background: rgba(212,175,55,0.1);">R</div>
                 <div>
-                    <h2 class="text-xl font-black uppercase">Red Casco</h2>
-                    <p class="text-xs text-green-400 uppercase tracking-widest"><i class="fas fa-star mr-1"></i> Miembro Activo</p>
+                    <h2 class="title-premium text-xl">RED CASCO</h2>
+                    <p class="title-sub-gold text-[9px] mt-1"><i class="fas fa-check-circle mr-1"></i> Miembro Verificado</p>
                 </div>
             </div>
 
-            <!-- Resumen de Puntos -->
-            <div class="glass-panel p-4 rounded-xl border border-white/10 mb-6 flex justify-between items-center">
+            <div class="card-vip p-5 mb-8 flex justify-between items-center">
                 <div>
-                    <p class="text-[10px] text-gray-400 uppercase tracking-widest">Puntos Acumulados</p>
-                    <p class="text-3xl font-black text-white">4,250</p>
+                    <p class="title-sub-gold text-[8px] mb-1">Status Points</p>
+                    <p class="text-3xl font-headings font-black text-white">4,250</p>
                 </div>
-                <div class="text-right">
-                    <button class="bg-redNeon text-white px-3 py-1 rounded text-[10px] font-bold uppercase">Canjear</button>
-                </div>
+                <button class="btn-neon-outline py-2 px-4 text-[9px]">Redimir</button>
             </div>
 
-            <!-- Mis Pases / QRs -->
-            <h3 class="text-sm font-black uppercase tracking-widest mb-4">Mis Pases y Eventos</h3>
+            <h3 class="title-sub-gold text-[10px] mb-4">Tickets & Reservas Activas</h3>
             <div id="mis-tickets" class="space-y-4">
-                <!-- Tarjeta de prueba -->
-                <div class="bg-gradient-to-r from-[#111] to-redNeon/10 border border-white/10 p-4 rounded-xl flex justify-between items-center">
-                    <div>
-                        <span class="bg-redNeon text-white text-[8px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-widest mb-1 inline-block">Mesa Adquirida</span>
-                        <h4 class="font-black text-sm uppercase">VIP Platinum - Modo Avión</h4>
-                        <p class="text-xs text-gray-400">Viernes, 24 Jul</p>
-                    </div>
-                    <button onclick="alert('Mostrando QR de entrada al local')" class="text-3xl text-white hover:text-redNeon transition"><i class="fas fa-qrcode"></i></button>
-                </div>
+                <!-- Se llena vía JS con las reservas hechas en vip.html o ticket.html -->
             </div>
-            <button onclick="cerrarSesion()" class="w-full border border-gray-700 text-gray-400 py-3 rounded-xl font-bold text-xs uppercase tracking-widest mt-8">Cerrar Sesión</button>
+            
+            <button onclick="cerrarSesion()" class="w-full mt-10 text-[10px] text-gray-500 font-bold uppercase tracking-widest hover:text-white transition">Cerrar Sesión Segura</button>
         </div>
     </main>
 
-    <!-- ========================================== -->
-    <!-- NAVEGACIÓN INFERIOR SPA                    -->
-    <!-- ========================================== -->
-    <nav class="fixed bottom-0 w-full bg-[#050505] border-t border-white/5 flex justify-around items-center pt-2 pb-5 z-40">
-        <button onclick="switchView('portal')" id="nav-portal" class="flex flex-col items-center w-1/3 py-2 nav-active transition-all">
-            <i class="fas fa-ticket-alt text-lg mb-1"></i>
-            <span class="text-[9px] font-bold uppercase tracking-widest mt-1">Portal</span>
+    <!-- NAVEGACIÓN INFERIOR SPA (Estilo OMNIA) -->
+    <nav class="fixed bottom-0 w-full bg-[#050505]/90 backdrop-blur-xl border-t border-white/5 flex justify-around items-center pt-3 pb-6 z-40">
+        <button onclick="switchView('portal')" id="nav-portal" class="flex flex-col items-center w-1/3 text-gray-500 nav-active transition-all">
+            <i class="fas fa-gem text-lg mb-1"></i>
+            <span class="text-[8px] font-headings font-bold uppercase tracking-widest mt-1">Descubrir</span>
         </button>
-        <button onclick="switchView('club')" id="nav-club" class="flex flex-col items-center w-1/3 py-2 text-gray-600 hover:text-white transition-all">
-            <i class="fas fa-glass-cheers text-lg mb-1"></i>
-            <span class="text-[9px] font-bold uppercase tracking-widest mt-1">In-Club</span>
+        <button onclick="switchView('club')" id="nav-club" class="flex flex-col items-center w-1/3 text-gray-500 hover:text-white transition-all">
+            <i class="fas fa-glass-martini-alt text-lg mb-1"></i>
+            <span class="text-[8px] font-headings font-bold uppercase tracking-widest mt-1">In-Club</span>
         </button>
-        <button onclick="switchView('profile')" id="nav-profile" class="flex flex-col items-center w-1/3 py-2 text-gray-600 hover:text-white transition-all">
-            <i class="fas fa-user-circle text-lg mb-1"></i>
-            <span class="text-[9px] font-bold uppercase tracking-widest mt-1">Perfil</span>
+        <button onclick="switchView('profile')" id="nav-profile" class="flex flex-col items-center w-1/3 text-gray-500 hover:text-white transition-all">
+            <i class="fas fa-user-lock text-lg mb-1"></i>
+            <span class="text-[8px] font-headings font-bold uppercase tracking-widest mt-1">Bóveda</span>
         </button>
     </nav>
 
     <script>
-        // --- UI LÓGICA GENERAL ---
+        // Lógica Sidebar
         function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
+            const sb = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
-            if(sidebar.classList.contains('sidebar-closed')){
-                sidebar.classList.remove('sidebar-closed'); sidebar.classList.add('sidebar-open');
-                overlay.classList.remove('hidden');
+            if(sb.classList.contains('sidebar-closed')){
+                sb.classList.remove('sidebar-closed'); sb.classList.add('sidebar-open');
+                overlay.classList.remove('hidden'); setTimeout(() => overlay.classList.add('opacity-100'), 10);
             } else {
-                sidebar.classList.add('sidebar-closed'); sidebar.classList.remove('sidebar-open');
-                overlay.classList.add('hidden');
+                sb.classList.add('sidebar-closed'); sb.classList.remove('sidebar-open');
+                overlay.classList.remove('opacity-100'); setTimeout(() => overlay.classList.add('hidden'), 300);
             }
         }
 
+        // Lógica Vistas
         function switchView(view) {
             ['portal', 'club', 'profile'].forEach(v => {
                 document.getElementById(`view-${v}`).classList.add('hidden');
                 document.getElementById(`nav-${v}`).classList.remove('nav-active', 'text-white');
-                document.getElementById(`nav-${v}`).classList.add('text-gray-600');
             });
             document.getElementById(`view-${view}`).classList.remove('hidden');
-            document.getElementById(`nav-${view}`).classList.remove('text-gray-600');
             document.getElementById(`nav-${view}`).classList.add('nav-active', 'text-white');
             window.scrollTo(0, 0);
-
             if(view === 'profile') checkAuthStatus();
         }
+        function cerrarModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
 
-        function cerrarModal(id) {
-            document.getElementById(id).classList.add('hidden');
-            document.getElementById(id).classList.remove('flex');
-        }
-
-        // --- LÓGICA IN-CLUB (BARRA VS MESA) ---
-        let modalidadActual = ""; // "barra" o "mesa"
-        let idMesaConfigurada = "";
+        // Lógica Catálogo In-Club
+        let modalidadActual = "", idMesaConfigurada = "";
         const productos = [
             { id: 1, nombre: 'Buchanans 12', precio: 120, img: 'https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=300&q=80' },
             { id: 2, nombre: 'Tito\'s Vodka', precio: 80, img: 'https://images.unsplash.com/photo-1614316346023-0868f7f2b1d2?w=300&q=80' },
@@ -319,18 +363,17 @@
         ];
         let carrito = {};
 
-        // Render Menú
         const grid = document.getElementById('product-grid');
         productos.forEach(prod => {
             grid.innerHTML += `
-                <div class="glass-panel rounded-xl overflow-hidden flex flex-col">
-                    <div class="h-28 relative bg-[#111]"><img src="${prod.img}" class="w-full h-full object-cover opacity-50"><div class="absolute top-2 right-2 glass-panel px-2 py-1 rounded text-[10px] font-black text-white">$${prod.precio}</div></div>
-                    <div class="p-3 flex flex-col bg-[#151515]">
-                        <h3 class="text-[11px] font-bold mb-3 uppercase truncate">${prod.nombre}</h3>
-                        <div class="flex justify-between items-center bg-black rounded p-1">
-                            <button onclick="modificarCarrito(${prod.id}, -1)" class="w-6 h-6 bg-gray-800 rounded font-bold">-</button>
-                            <span id="qty-${prod.id}" class="text-sm font-bold">0</span>
-                            <button onclick="modificarCarrito(${prod.id}, 1)" class="w-6 h-6 bg-redNeon rounded font-bold text-white">+</button>
+                <div class="card-vip p-0 flex flex-col">
+                    <div class="h-28 relative"><img src="${prod.img}" class="w-full h-full object-cover opacity-60"><div class="absolute top-2 right-2 bg-black/80 px-2 py-1 rounded text-[9px] font-headings font-bold text-white border border-white/10">$${prod.precio}</div></div>
+                    <div class="p-4 flex flex-col flex-grow bg-black/40">
+                        <h3 class="text-[11px] font-headings font-bold mb-3 uppercase truncate">${prod.nombre}</h3>
+                        <div class="flex justify-between items-center bg-black/80 rounded border border-white/10 p-1">
+                            <button onclick="modificarCarrito(${prod.id}, -1)" class="w-6 h-6 text-gray-400 hover:text-white font-bold">-</button>
+                            <span id="qty-${prod.id}" class="text-sm font-headings font-bold">0</span>
+                            <button onclick="modificarCarrito(${prod.id}, 1)" class="w-6 h-6 text-yellow-500 hover:text-white font-bold">+</button>
                         </div>
                     </div>
                 </div>
@@ -345,117 +388,104 @@
             document.getElementById('payment-amount').innerText = `$${total}`;
         }
 
-        // Flujo de Vistas In-Club
         function volverAClubHome() {
-            document.getElementById('club-step-1').classList.remove('hidden');
-            document.getElementById('club-step-2').classList.add('hidden');
-            document.getElementById('club-step-3').classList.add('hidden');
-            carrito = {}; // reset
-            productos.forEach(p => document.getElementById(`qty-${p.id}`).innerText = "0");
-            modificarCarrito(0,0);
+            document.getElementById('club-step-1').classList.remove('hidden'); document.getElementById('club-step-2').classList.add('hidden'); document.getElementById('club-step-3').classList.add('hidden');
+            carrito = {}; productos.forEach(p => document.getElementById(`qty-${p.id}`).innerText = "0"); modificarCarrito(0,0);
         }
 
         function setModalidad(tipo) {
             modalidadActual = tipo;
+            document.getElementById('club-step-1').classList.add('hidden');
             if (tipo === 'barra') {
-                document.getElementById('club-step-1').classList.add('hidden');
-                abrirMenu('Barra Principal', 'Fast Pass');
-                document.getElementById('btn-checkout').innerText = 'Generar QR';
-                document.getElementById('btn-checkout').className = "bg-redNeon text-white px-6 py-3 rounded-sm font-black text-xs uppercase tracking-wider shadow-[0_0_15px_rgba(255,0,60,0.4)] flex items-center";
-                document.getElementById('btn-checkout').innerHTML = '<i class="fas fa-qrcode mr-2"></i> Generar QR';
+                abrirMenu('Barra Principal', 'Fast Pass Activo');
+                const btn = document.getElementById('btn-checkout');
+                btn.innerText = 'Generar Pase QR';
+                btn.style.background = 'transparent'; btn.style.border = '1px solid var(--neon-cyan)'; btn.style.color = 'white'; btn.style.boxShadow = '0 0 15px rgba(6,182,212,0.3)';
             } else {
-                document.getElementById('club-step-1').classList.add('hidden');
                 document.getElementById('club-step-2').classList.remove('hidden');
             }
         }
-
         function mostrarLoginMesa() { setModalidad('mesa'); }
-
         function validarMesa() {
             const codigo = document.getElementById('codigo-mesa').value.toLowerCase().trim();
-            if (codigo === 'mesavip1') { idMesaConfigurada = "VIP 1"; } 
-            else if (codigo === 'mesa1') { idMesaConfigurada = "Mesa 1"; } 
-            else { return alert("Código inválido. Usa 'mesavip1' o 'mesa1'"); }
-
+            if (codigo === 'mesavip1') { idMesaConfigurada = "VIP Platinum 1"; } 
+            else if (codigo === 'mesa1') { idMesaConfigurada = "Mesa Standard 1"; } 
+            else { return alert("Clave de Host inválida. (Usa: mesavip1)"); }
             document.getElementById('club-step-2').classList.add('hidden');
-            abrirMenu(idMesaConfigurada, 'Servicio a Mesa');
-            document.getElementById('btn-checkout').innerText = 'Pagar y Pedir';
-            document.getElementById('btn-checkout').className = "bg-white text-black px-6 py-3 rounded-sm font-black text-xs uppercase tracking-wider flex items-center";
-            document.getElementById('btn-checkout').innerHTML = '<i class="fas fa-credit-card mr-2"></i> Pagar';
+            abrirMenu(idMesaConfigurada, 'Servicio Activo');
+            const btn = document.getElementById('btn-checkout');
+            btn.innerText = 'Pagar y Pedir'; btn.style = ''; btn.className = 'btn-gold py-3 px-6 text-[10px] w-auto';
         }
-
         function abrirMenu(titulo, etiqueta) {
             document.getElementById('club-step-3').classList.remove('hidden');
             document.getElementById('titulo-modalidad').innerText = titulo;
             document.getElementById('etiqueta-modalidad').innerText = etiqueta;
         }
 
-        // Checkout y Pagos
         function procesarCheckout() {
             let items = productos.filter(p => carrito[p.id] > 0);
-            if(items.length === 0) return alert("El carrito está vacío");
-
+            if(items.length === 0) return alert("Agrega botellas o mixers para continuar.");
             if (modalidadActual === 'barra') {
-                // Flujo Barra: Generar QR
                 let data = { id: 'FP-'+Math.floor(Math.random()*1000), tipo: "QR_Barra", items: items.map(p => ({nombre: p.nombre, cant: carrito[p.id]})), total: items.reduce((s,p) => s + (p.precio * carrito[p.id]), 0) };
-                document.getElementById('qr-modal').classList.remove('hidden');
-                document.getElementById('qr-modal').classList.add('flex');
+                document.getElementById('qr-modal').classList.remove('hidden'); document.getElementById('qr-modal').classList.add('flex');
                 document.getElementById('qrcode').innerHTML = '';
-                new QRCode(document.getElementById("qrcode"), { text: JSON.stringify(data), width: 200, height: 200 });
+                new QRCode(document.getElementById("qrcode"), { text: JSON.stringify(data), width: 200, height: 200, colorDark: "#000", colorLight: "#fff" });
             } else {
-                // Flujo Mesa: Mostrar Modal de Pago
-                document.getElementById('payment-modal').classList.remove('hidden');
-                document.getElementById('payment-modal').classList.add('flex');
+                document.getElementById('payment-modal').classList.remove('hidden'); document.getElementById('payment-modal').classList.add('flex');
             }
         }
 
         function simularPago() {
             const btn = document.getElementById('btn-procesar-pago');
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Procesando...';
-            btn.classList.add('opacity-70');
-            
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Encriptando...'; btn.classList.add('opacity-70');
             setTimeout(() => {
-                // Simula envío a admin.html
                 let items = productos.filter(p => carrito[p.id] > 0);
                 let data = { id: 'ORD-'+Math.floor(Math.random()*1000), mesa: idMesaConfigurada, tipo: "Mesa Pagado", items: items.map(p => ({nombre: p.nombre, cant: carrito[p.id], precio: p.precio})), total: items.reduce((s,p) => s + (p.precio * carrito[p.id]), 0), time: new Date().toLocaleTimeString() };
                 let pedidos = JSON.parse(localStorage.getItem('red_pedidos')) || [];
-                pedidos.push(data);
-                localStorage.setItem('red_pedidos', JSON.stringify(pedidos));
-                window.dispatchEvent(new Event('storage')); // Avisa al backend
+                pedidos.push(data); localStorage.setItem('red_pedidos', JSON.stringify(pedidos));
+                window.dispatchEvent(new Event('storage'));
                 
-                alert("Pago Aprobado. Tu pedido va en camino a " + idMesaConfigurada);
-                cerrarModal('payment-modal');
-                volverAClubHome();
-                btn.innerHTML = 'Confirmar Pago'; btn.classList.remove('opacity-70');
-            }, 2000);
+                alert("Cargo Autorizado. Tu Host está preparando el pedido para " + idMesaConfigurada);
+                cerrarModal('payment-modal'); volverAClubHome();
+                btn.innerHTML = 'Procesar Cargo Seguro'; btn.classList.remove('opacity-70');
+            }, 1500);
         }
 
-        // --- LÓGICA DE PERFIL Y LOGIN ---
+        // Lógica Perfil
         function checkAuthStatus() {
-            const isLoggedIn = localStorage.getItem('red_logged_in') === 'true';
-            if(isLoggedIn){
-                document.getElementById('profile-login').classList.add('hidden');
-                document.getElementById('profile-dashboard').classList.remove('hidden');
+            if(localStorage.getItem('red_logged_in') === 'true'){
+                document.getElementById('profile-login').classList.add('hidden'); document.getElementById('profile-dashboard').classList.remove('hidden');
+                renderizarTickets();
             } else {
-                document.getElementById('profile-login').classList.remove('hidden');
-                document.getElementById('profile-dashboard').classList.add('hidden');
+                document.getElementById('profile-login').classList.remove('hidden'); document.getElementById('profile-dashboard').classList.add('hidden');
             }
         }
-
         function validarLogin() {
-            const user = document.getElementById('login-user').value;
-            const pass = document.getElementById('login-pass').value;
-            if(user === 'redcasco' && pass === '1234') {
-                localStorage.setItem('red_logged_in', 'true');
-                checkAuthStatus();
-            } else {
-                alert('Credenciales incorrectas. Usa redcasco / 1234');
-            }
+            if(document.getElementById('login-user').value === 'redcasco' && document.getElementById('login-pass').value === '1234') {
+                localStorage.setItem('red_logged_in', 'true'); checkAuthStatus();
+            } else { alert('Acceso denegado. (Usa redcasco / 1234)'); }
         }
-
-        function cerrarSesion() {
-            localStorage.setItem('red_logged_in', 'false');
-            checkAuthStatus();
+        function cerrarSesion() { localStorage.setItem('red_logged_in', 'false'); checkAuthStatus(); }
+        
+        function renderizarTickets() {
+            const cont = document.getElementById('mis-tickets');
+            let tkts = JSON.parse(localStorage.getItem('red_user_tickets')) || [];
+            if(tkts.length === 0) {
+                cont.innerHTML = `<p class="text-xs text-gray-500 text-center py-6 border border-white/5 rounded-xl font-body">Tu bóveda está vacía.</p>`;
+            } else {
+                cont.innerHTML = '';
+                tkts.reverse().forEach(t => {
+                    cont.innerHTML += `
+                    <div class="card-vip p-4 mb-3 flex justify-between items-center">
+                        <div>
+                            <span class="title-sub-gold text-[7px] mb-1 inline-block">${t.estado}</span>
+                            <h4 class="font-headings font-black text-sm uppercase text-white">${t.evento}</h4>
+                            <p class="text-[10px] text-gray-400 font-body">${t.fecha} • ${t.tipo}</p>
+                        </div>
+                        <button onclick="alert('Bóveda ID: ${t.id}')" class="text-3xl text-gray-600 hover:text-white transition"><i class="fas fa-qrcode"></i></button>
+                    </div>`;
+                });
+            }
         }
     </script>
 </body>
