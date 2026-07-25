@@ -3,201 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-width=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RED Admin | Control de Barra</title>
+    <title>RED Admin | Terminal Operativa</title>
+    
+    <!-- Tailwind CSS y FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { redNeon: '#ff003c', darkBg: '#0a0a0a', cardBg: '#1a1a1a' }
-                }
-            }
-        }
-    </script>
+    
+    <!-- Fuentes Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
-        body { background-color: #0a0a0a; color: white; -webkit-tap-highlight-color: transparent; }
+        /* ========================================== */
+        /* SISTEMA DE DISEÑO ADMIN (RED IDENTIDAD)    */
+        /* ========================================== */
+        :root {
+            --bg-primary: #030001;
+            --neon-red: #ff003c;
+            --gold-primary: #d4af37;
+            
+            --text-pure: #ffffff;
+            --text-muted: #8e8e93;
+            
+            --glass-bg: rgba(15, 15, 18, 0.85);
+            --glass-border: rgba(255, 0, 60, 0.2);
+            
+            --font-headings: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body { background-color: var(--bg-primary); color: var(--text-pure); font-family: var(--font-body); overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .tab-active { border-bottom: 2px solid #ff003c; color: #ff003c; }
+        .animate-fade { animation: fadeIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Componentes Admin */
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); }
+        .card-order {
+            background: rgba(10, 10, 12, 0.9); border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid var(--neon-red);
+            border-radius: 8px; transition: all 0.3s ease;
+        }
+        .card-order:hover { box-shadow: 0 5px 20px rgba(255, 0, 60, 0.15); border-color: rgba(255, 0, 60, 0.3); }
+
+        .title-admin { font-family: var(--font-headings); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .tab-btn { font-family: var(--font-headings); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); transition: all 0.3s ease; }
+        .tab-active { color: var(--neon-red); border-bottom: 2px solid var(--neon-red); }
+
+        .btn-action {
+            background: var(--neon-red); color: white; font-family: var(--font-headings); font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;
+            border-radius: 4px; transition: all 0.3s ease;
+        }
+        .btn-action:hover { box-shadow: 0 0 15px rgba(255, 0, 60, 0.4); }
+
+        .logo-blend { mix-blend-mode: screen; }
     </style>
 </head>
 <body class="h-screen flex flex-col">
 
-    <!-- Header Admin -->
-    <header class="bg-cardBg p-4 border-b border-gray-800 flex justify-between items-center z-50">
-        <div>
-            <h1 class="text-xl font-bold text-white tracking-widest"><span class="text-redNeon">RED</span> OPERACIONES</h1>
-            <p class="text-xs text-gray-400">Terminal Principal - Barra</p>
+    <!-- HEADER OPERATIVO -->
+    <header class="glass-panel p-4 flex justify-between items-center z-50 sticky top-0">
+        <div class="flex items-center space-x-4">
+            <img src="https://raw.githubusercontent.com/tecnotradepty/Red/f5371dd291d84d225ca9de079ac75e584d78fdd7/imagenes/redicon.jpg" alt="RED Logo" class="h-6 logo-blend">
+            <div class="border-l border-white/20 pl-4">
+                <h1 class="title-admin text-sm text-white">Terminal Operativa</h1>
+                <p class="text-[9px] text-gray-400 uppercase tracking-widest font-body">Estación: Barra Principal</p>
+            </div>
         </div>
-        <div class="flex items-center space-x-3">
-            <span class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-bold flex items-center">
-                <div class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></div> Online
+        <div class="flex items-center">
+            <span class="bg-green-500/10 border border-green-500/30 text-green-400 px-3 py-1.5 rounded text-[10px] font-bold font-headings uppercase tracking-widest flex items-center shadow-[0_0_10px_rgba(34,197,94,0.2)]">
+                <div class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></div> En Línea
             </span>
         </div>
     </header>
 
-    <!-- Navegación -->
-    <nav class="flex border-b border-gray-800 bg-cardBg">
-        <button onclick="switchTab('pedidos')" id="tab-pedidos" class="flex-1 py-3 text-sm font-bold tab-active">Pedidos (Mesas)</button>
-        <button onclick="switchTab('pos')" id="tab-pos" class="flex-1 py-3 text-sm font-bold text-gray-500">POS (Hablado)</button>
-        <button onclick="switchTab('feedback')" id="tab-feedback" class="flex-1 py-3 text-sm font-bold text-gray-500">Feedback Staff</button>
+    <!-- NAVEGACIÓN DE TABS -->
+    <nav class="flex border-b border-white/10 bg-[#0a0a0a]">
+        <button onclick="switchTab('pedidos')" id="tab-pedidos" class="flex-1 py-4 text-xs tab-btn tab-active">
+            <i class="fas fa-satellite-dish mr-2"></i> Monitor VIP
+        </button>
+        <button onclick="switchTab('pos')" id="tab-pos" class="flex-1 py-4 text-xs tab-btn">
+            <i class="fas fa-cash-register mr-2"></i> POS Rápido
+        </button>
+        <button onclick="switchTab('feedback')" id="tab-feedback" class="flex-1 py-4 text-xs tab-btn">
+            <i class="fas fa-headset mr-2"></i> Staff Report
+        </button>
     </nav>
 
-    <!-- ÁREA 1: KANBAN DE PEDIDOS (Conectado al index.html) -->
-    <main id="view-pedidos" class="flex-grow overflow-y-auto p-4 space-y-4">
-        <div class="flex justify-between items-end mb-2">
-            <h2 class="font-bold text-gray-300"><i class="fas fa-satellite-dish text-redNeon mr-2"></i>Cola de Entrada</h2>
-            <button onclick="cargarPedidos()" class="text-xs text-gray-400 bg-gray-800 px-2 py-1 rounded"><i class="fas fa-sync-alt"></i> Actualizar</button>
+    <!-- ========================================== -->
+    <!-- ÁREA 1: KANBAN MONITOR (Conectado a App)   -->
+    <!-- ========================================== -->
+    <main id="view-pedidos" class="flex-grow overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-[#050505] to-[#0a0a0a]">
+        <div class="flex justify-between items-end mb-4 border-b border-white/5 pb-2">
+            <h2 class="title-admin text-sm text-gray-300">Cola de Comandas</h2>
+            <button onclick="cargarPedidos()" class="text-[10px] text-gray-400 border border-white/10 bg-black/50 px-3 py-1.5 rounded hover:text-white transition uppercase font-headings font-bold tracking-widest">
+                <i class="fas fa-sync-alt mr-1"></i> Actualizar
+            </button>
         </div>
         
-        <div id="cola-pedidos" class="space-y-3">
-            <!-- Pedidos renderizados por JS -->
-            <p class="text-center text-gray-500 text-sm py-10" id="empty-state">No hay pedidos en cola.</p>
+        <div id="cola-pedidos" class="space-y-4">
+            <!-- Renders via JS -->
+            <div id="empty-state" class="text-center py-20 opacity-50">
+                <i class="fas fa-check-double text-4xl mb-3 text-gray-600"></i>
+                <p class="font-headings font-bold text-sm uppercase tracking-widest text-gray-500">Barra despejada</p>
+                <p class="text-[10px] font-body text-gray-600 mt-1">Esperando nuevas comandas...</p>
+            </div>
         </div>
     </main>
 
-    <!-- ÁREA 2: POS MANUAL (Para pedidos hablados en barra) -->
-    <main id="view-pos" class="hidden flex-grow overflow-y-auto p-4 flex flex-col">
-        <h2 class="font-bold text-gray-300 mb-4"><i class="fas fa-cash-register text-redNeon mr-2"></i>Ingreso Manual</h2>
-        <div class="grid grid-cols-2 gap-3 mb-4">
-            <button class="bg-gray-800 p-4 rounded-lg font-bold text-left hover:bg-gray-700 transition" onclick="alert('Funcionalidad de prototipo')">Buchanans 12 <span class="block text-sm text-green-400">$120</span></button>
-            <button class="bg-gray-800 p-4 rounded-lg font-bold text-left hover:bg-gray-700 transition" onclick="alert('Funcionalidad de prototipo')">Tito's Vodka <span class="block text-sm text-green-400">$80</span></button>
-            <button class="bg-gray-800 p-4 rounded-lg font-bold text-left hover:bg-gray-700 transition" onclick="alert('Funcionalidad de prototipo')">Red Bull <span class="block text-sm text-green-400">$6</span></button>
-            <button class="bg-gray-800 p-4 rounded-lg font-bold text-left hover:bg-gray-700 transition" onclick="alert('Funcionalidad de prototipo')">Agua <span class="block text-sm text-green-400">$3</span></button>
+    <!-- ========================================== -->
+    <!-- ÁREA 2: POS MANUAL (Punto de Venta)        -->
+    <!-- ========================================== -->
+    <main id="view-pos" class="hidden flex-grow overflow-y-auto p-4 flex flex-col bg-[#050505]">
+        <h2 class="title-admin text-sm text-gray-300 mb-4 border-b border-white/5 pb-2">Ingreso Manual (Walk-ins)</h2>
+        
+        <div class="grid grid-cols-2 gap-3 mb-6">
+            <button class="glass-panel p-4 rounded-xl text-left hover:bg-white/5 transition group" onclick="alert('Funcionalidad POS: Añadido al ticket')">
+                <h3 class="font-headings font-bold text-sm uppercase text-white group-hover:text-redNeon transition">Buchanans 12</h3>
+                <span class="block text-xs font-bold text-green-400 mt-1">$120.00</span>
+            </button>
+            <button class="glass-panel p-4 rounded-xl text-left hover:bg-white/5 transition group" onclick="alert('Funcionalidad POS: Añadido al ticket')">
+                <h3 class="font-headings font-bold text-sm uppercase text-white group-hover:text-redNeon transition">Tito's Vodka</h3>
+                <span class="block text-xs font-bold text-green-400 mt-1">$80.00</span>
+            </button>
+            <button class="glass-panel p-4 rounded-xl text-left hover:bg-white/5 transition group" onclick="alert('Funcionalidad POS: Añadido al ticket')">
+                <h3 class="font-headings font-bold text-sm uppercase text-white group-hover:text-redNeon transition">Red Bull</h3>
+                <span class="block text-xs font-bold text-green-400 mt-1">$6.00</span>
+            </button>
+            <button class="glass-panel p-4 rounded-xl text-left hover:bg-white/5 transition group" onclick="alert('Funcionalidad POS: Añadido al ticket')">
+                <h3 class="font-headings font-bold text-sm uppercase text-white group-hover:text-redNeon transition">Agua Embotellada</h3>
+                <span class="block text-xs font-bold text-green-400 mt-1">$3.00</span>
+            </button>
         </div>
-        <button class="mt-auto w-full bg-redNeon text-white py-4 rounded-lg font-bold text-lg shadow-lg shadow-redNeon/30">
-            Cobrar Rápido
-        </button>
+
+        <div class="mt-auto border-t border-white/10 pt-4">
+            <div class="flex justify-between items-center mb-4 px-2">
+                <span class="text-xs text-gray-400 uppercase font-headings tracking-widest">Total Mesa</span>
+                <span class="text-2xl font-headings font-black text-white">$0.00</span>
+            </div>
+            <button class="btn-action w-full py-4 text-sm shadow-[0_0_20px_rgba(255,0,60,0.3)]">
+                Procesar Cobro
+            </button>
+        </div>
     </main>
 
-    <!-- ÁREA 3: FEEDBACK Y REPORTE AL STAFF (Conectado a WhatsApp) -->
-    <main id="view-feedback" class="hidden flex-grow overflow-y-auto p-4">
-        <h2 class="font-bold text-gray-300 mb-6"><i class="fas fa-comment-dots text-redNeon mr-2"></i>Reporte Operativo</h2>
+    <!-- ========================================== -->
+    <!-- ÁREA 3: FEEDBACK STAFF (WhatsApp Bridge)   -->
+    <!-- ========================================== -->
+    <main id="view-feedback" class="hidden flex-grow overflow-y-auto p-4 bg-[#050505]">
+        <h2 class="title-admin text-sm text-gray-300 mb-6 border-b border-white/5 pb-2">Reporte Operativo de Turno</h2>
         
-        <label class="block text-sm text-gray-400 mb-2">Estado del Turno</label>
-        <div class="flex space-x-2 mb-6">
-            <button onclick="setEstado('🟢 Fluido')" class="flex-1 bg-gray-800 border border-gray-700 py-3 rounded-lg text-xl hover:bg-gray-700">🟢</button>
-            <button onclick="setEstado('🟡 Denso')" class="flex-1 bg-gray-800 border border-gray-700 py-3 rounded-lg text-xl hover:bg-gray-700">🟡</button>
-            <button onclick="setEstado('🔴 Caos')" class="flex-1 bg-gray-800 border border-gray-700 py-3 rounded-lg text-xl hover:bg-gray-700">🔴</button>
+        <div class="glass-panel p-5 rounded-xl mb-6 border-white/10">
+            <label class="block text-[10px] font-headings text-gray-400 uppercase tracking-widest mb-3">Pulso de la Barra</label>
+            <div class="flex space-x-2">
+                <button onclick="setEstado('🟢 Fluido')" class="flex-1 bg-black/50 border border-white/5 py-4 rounded-lg text-2xl hover:border-green-500 hover:bg-green-500/10 transition">🟢</button>
+                <button onclick="setEstado('🟡 Denso')" class="flex-1 bg-black/50 border border-white/5 py-4 rounded-lg text-2xl hover:border-yellow-500 hover:bg-yellow-500/10 transition">🟡</button>
+                <button onclick="setEstado('🔴 Caos')" class="flex-1 bg-black/50 border border-white/5 py-4 rounded-lg text-2xl hover:border-red-500 hover:bg-red-500/10 transition">🔴</button>
+            </div>
         </div>
 
-        <label class="block text-sm text-gray-400 mb-2">Fricción Principal (Opcional)</label>
-        <select id="friccion" class="w-full bg-gray-800 border border-gray-700 text-white rounded-lg p-3 mb-6 appearance-none">
-            <option value="Ninguna">Todo perfecto</option>
-            <option value="Falta de stock">Falta de stock en barra</option>
-            <option value="Mucho pedido manual">Mucho pedido manual (clientes no usan QR)</option>
-            <option value="Lentitud de red">Lentitud de red / Internet</option>
-        </select>
+        <div class="space-y-4 mb-8">
+            <div>
+                <label class="block text-[10px] font-headings text-gray-400 uppercase tracking-widest mb-2">Fricción Detectada</label>
+                <select id="friccion" class="w-full bg-black/50 border border-white/10 text-white font-body text-sm rounded-lg p-4 appearance-none outline-none focus:border-redNeon transition">
+                    <option value="Operación Normal">Todo en orden</option>
+                    <option value="Quiebre de Stock">Falta de stock (Hielo/Mixers)</option>
+                    <option value="Fricción QR">Clientes no entienden QR</option>
+                    <option value="Caída Red">Intermitencia de WiFi/POS</option>
+                </select>
+            </div>
 
-        <label class="block text-sm text-gray-400 mb-2">Comentarios Adicionales</label>
-        <textarea id="comentarios" rows="3" class="w-full bg-gray-800 border border-gray-700 text-white rounded-lg p-3 mb-6 placeholder-gray-500" placeholder="Ej. Necesitamos más hielo rápido..."></textarea>
+            <div>
+                <label class="block text-[10px] font-headings text-gray-400 uppercase tracking-widest mb-2">Notas Adicionales</label>
+                <textarea id="comentarios" rows="3" class="w-full bg-black/50 border border-white/10 text-white font-body text-sm rounded-lg p-4 outline-none focus:border-redNeon transition placeholder-gray-600" placeholder="Ej. Necesitamos runner en zona Platinum..."></textarea>
+            </div>
+        </div>
 
-        <!-- Botón que envía a WhatsApp -->
-        <button onclick="enviarReporte()" class="w-full bg-[#25D366] text-white py-4 rounded-lg font-bold shadow-lg shadow-green-900/50 flex justify-center items-center">
-            <i class="fab fa-whatsapp text-xl mr-2"></i> Enviar Reporte
+        <button onclick="enviarReporte()" class="w-full bg-[#25D366] text-white py-4 rounded-xl font-headings font-black uppercase tracking-widest shadow-[0_0_20px_rgba(37,211,102,0.3)] hover:bg-[#20b858] transition flex justify-center items-center">
+            <i class="fab fa-whatsapp text-lg mr-2"></i> Enviar a Gerencia
         </button>
     </main>
 
     <script>
-        // Lógica de Pestañas
+        // --- NAVEGACIÓN ---
         function switchTab(tabId) {
             ['pedidos', 'pos', 'feedback'].forEach(id => {
                 document.getElementById(`view-${id}`).classList.add('hidden');
-                document.getElementById(`tab-${id}`).classList.remove('tab-active', 'text-redNeon');
-                document.getElementById(`tab-${id}`).classList.add('text-gray-500');
+                document.getElementById(`tab-${id}`).classList.remove('tab-active');
             });
             document.getElementById(`view-${tabId}`).classList.remove('hidden');
-            document.getElementById(`tab-${tabId}`).classList.remove('text-gray-500');
-            document.getElementById(`tab-${tabId}`).classList.add('tab-active', 'text-redNeon');
+            document.getElementById(`view-${tabId}`).classList.add('animate-fade');
+            document.getElementById(`tab-${tabId}`).classList.add('tab-active');
         }
 
-        // Lógica KANBAN (Leer pedidos del Cliente)
+        // --- LÓGICA KANBAN (Monitor VIP) ---
         function cargarPedidos() {
             const cola = document.getElementById('cola-pedidos');
             const emptyState = document.getElementById('empty-state');
             
-            // Leer desde localStorage (Simulación de Base de Datos en Tiempo Real)
+            // Leer desde localStorage (El puente con el cliente)
             let pedidos = JSON.parse(localStorage.getItem('red_pedidos')) || [];
             
             if (pedidos.length === 0) {
                 emptyState.style.display = 'block';
-                cola.innerHTML = '';
-                cola.appendChild(emptyState);
+                // Removemos todas las tarjetas excepto el empty state
+                Array.from(cola.children).forEach(child => { if(child.id !== 'empty-state') child.remove(); });
                 return;
             }
 
             emptyState.style.display = 'none';
-            cola.innerHTML = ''; // Limpiar cola
+            cola.innerHTML = ''; // Limpiar cola para re-renderizar
+            cola.appendChild(emptyState); // Mantener el div oculto
 
             pedidos.reverse().forEach((pedido, index) => {
                 let itemsHTML = '';
                 pedido.items.forEach(item => {
-                    itemsHTML += `<div class="flex justify-between text-sm text-gray-300"><span class="font-bold">${item.cant}x</span> <span>${item.nombre}</span></div>`;
+                    itemsHTML += `
+                    <div class="flex justify-between text-xs font-body text-gray-300 py-1 border-b border-white/5 last:border-0">
+                        <span><span class="font-bold text-white">${item.cant}x</span> ${item.nombre}</span>
+                    </div>`;
                 });
 
-                cola.innerHTML += `
-                    <div class="bg-cardBg border border-gray-700 rounded-xl p-4 shadow-md relative overflow-hidden" id="card-${index}">
-                        <div class="absolute top-0 left-0 w-1 h-full bg-redNeon"></div>
-                        <div class="flex justify-between items-start border-b border-gray-800 pb-2 mb-2">
+                // Detectar tipo para estilo visual (Barra vs Mesa)
+                const isQR = pedido.tipo.includes("QR");
+                const badgeColor = isQR ? "text-cyan-400 border-cyan-400/30 bg-cyan-400/10" : "text-yellow-500 border-yellow-500/30 bg-yellow-500/10";
+                const icon = isQR ? "fa-walking" : "fa-couch";
+                const targetText = isQR ? "Retiro en Barra" : pedido.mesa;
+
+                const cardHTML = `
+                    <div class="card-order p-4 animate-fade" id="card-${index}">
+                        <div class="flex justify-between items-start mb-3">
                             <div>
-                                <h3 class="font-bold text-white text-lg">Mesa ${pedido.mesa}</h3>
-                                <p class="text-xs text-gray-500">ID: ${pedido.id} • ${pedido.timestamp}</p>
+                                <h3 class="font-headings font-black text-white uppercase text-sm">${targetText}</h3>
+                                <p class="text-[9px] text-gray-500 font-body">Ref: ${pedido.id} • ${pedido.time || 'N/A'}</p>
                             </div>
-                            <div class="text-right">
-                                <span class="bg-redNeon/20 text-redNeon px-2 py-1 rounded text-xs font-bold border border-redNeon/30">${pedido.tipo}</span>
-                            </div>
+                            <span class="px-2 py-1 border rounded-[4px] text-[8px] font-headings font-bold uppercase tracking-widest flex items-center ${badgeColor}">
+                                <i class="fas ${icon} mr-1"></i> ${isQR ? 'Fast Pass' : 'VIP Service'}
+                            </span>
                         </div>
-                        <div class="mb-4 space-y-1">
+                        
+                        <div class="bg-black/40 rounded p-3 mb-4 border border-white/5">
                             ${itemsHTML}
                         </div>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-green-400 font-bold">$${pedido.total}</span>
-                            <button onclick="marcarEntregado(${index})" class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition">
-                                Despachar <i class="fas fa-check ml-1"></i>
+                        
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-[8px] font-headings text-gray-500 uppercase tracking-widest">Total Comanda</p>
+                                <span class="text-green-400 font-headings font-black">$${parseFloat(pedido.total).toFixed(2)}</span>
+                            </div>
+                            <button onclick="marcarEntregado(${index})" class="bg-white hover:bg-gray-200 text-black px-4 py-2 rounded-[4px] text-[10px] font-headings font-black uppercase tracking-widest transition flex items-center shadow-lg">
+                                Despachar <i class="fas fa-check-circle ml-2"></i>
                             </button>
                         </div>
                     </div>
                 `;
+                cola.insertAdjacentHTML('beforeend', cardHTML);
             });
         }
 
         function marcarEntregado(index) {
             let pedidos = JSON.parse(localStorage.getItem('red_pedidos')) || [];
-            // Para el prototipo, simplemente lo removemos de la cola
+            // Removemos el pedido simulando despacho
             pedidos.splice(pedidos.length - 1 - index, 1); 
             localStorage.setItem('red_pedidos', JSON.stringify(pedidos));
-            document.getElementById(`card-${index}`).style.opacity = '0.5';
+            
+            const card = document.getElementById(`card-${index}`);
+            card.style.transform = 'translateX(100%)';
+            card.style.opacity = '0';
             setTimeout(cargarPedidos, 300);
         }
 
-        // Escuchar cambios en el almacenamiento local para actualizar en vivo
+        // Listener en tiempo real para cuando el cliente paga en el index.html
         window.addEventListener('storage', function(e) {
             if(e.key === 'red_pedidos') {
                 cargarPedidos();
+                // Opcional: Sonido de notificación de nueva orden
             }
         });
 
-        // Carga inicial
+        // Inicialización
         cargarPedidos();
 
-        // Lógica del Feedback a WhatsApp
-        let estadoTurno = "Sin definir";
+        // --- LÓGICA FEEDBACK WHATSAPP ---
+        let estadoTurno = "";
 
         function setEstado(estado) {
             estadoTurno = estado;
-            alert("Estado seleccionado: " + estado);
+            // Feedback visual rápido
+            const btn = event.currentTarget;
+            const parent = btn.parentElement;
+            Array.from(parent.children).forEach(c => c.classList.remove('border-white', 'opacity-100'));
+            Array.from(parent.children).forEach(c => c.classList.add('opacity-50'));
+            btn.classList.add('border-white', 'opacity-100');
+            btn.classList.remove('opacity-50');
         }
 
         function enviarReporte() {
-            if(estadoTurno === "Sin definir") return alert("Por favor, selecciona el estado del turno (Caritas)");
+            if(!estadoTurno) return alert("Selecciona el 'Pulso de la Barra' antes de reportar.");
 
             const friccion = document.getElementById('friccion').value;
             const comentarios = document.getElementById('comentarios').value;
             
-            // Reemplaza con tu número o el de prueba
+            // Reemplaza con el número de la gerencia de RED
             const telefonoDestino = "50760000000"; 
             
-            const mensaje = `🚨 *REPORTE OPERATIVO RED*\n\n*Estado:* ${estadoTurno}\n*Fricción:* ${friccion}\n*Comentarios:* ${comentarios ? comentarios : 'N/A'}`;
+            const mensaje = `🚨 *REPORTE OPERATIVO RED*\n\n*Terminal:* Barra Principal\n*Estado:* ${estadoTurno}\n*Fricción:* ${friccion}\n*Notas:* ${comentarios ? comentarios : 'N/A'}`;
             
             const url = `https://wa.me/${telefonoDestino}?text=${encodeURIComponent(mensaje)}`;
             window.open(url, '_blank');
