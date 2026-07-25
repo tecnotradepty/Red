@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-width=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RED Casco | Taquilla Oficial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Montserrat', 'sans-serif'] }, colors: { redNeon: '#ff003c', darkBg: '#050505' } } } }
+    </script>
+    <style>
+        body { background-color: #050505; color: white; -webkit-tap-highlight-color: transparent; }
+        .glass-panel { background: rgba(20, 20, 20, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .animate-fade { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="font-sans pb-10">
+
+    <!-- HEADER GLOBAL -->
+    <header class="sticky top-0 w-full z-40 glass-panel p-4 flex justify-between items-center shadow-lg">
+        <a href="index.html" class="text-white text-sm font-bold uppercase tracking-widest flex items-center hover:text-redNeon transition">
+            <i class="fas fa-arrow-left mr-2"></i> Portal
+        </a>
+        <h1 class="text-xl font-black text-white tracking-[0.2em]">TICKETS<span class="text-redNeon">.</span></h1>
+        <div class="w-16"></div> <!-- Spacer para centrar el título -->
+    </header>
+
+    <!-- EVENTO DESTACADO (HOY) -->
+    <main class="p-4 animate-fade">
+        <h2 class="text-sm font-black uppercase tracking-widest text-gray-500 mb-4">Evento Destacado</h2>
+        
+        <div class="relative h-72 w-full rounded-2xl overflow-hidden mb-8 border border-white/10 shadow-[0_10px_30px_rgba(255,0,60,0.1)]">
+            <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Modo Avion">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/50 to-transparent"></div>
+            
+            <div class="absolute bottom-4 left-4 right-4">
+                <span class="bg-redNeon text-white text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-widest mb-2 inline-block animate-pulse">Hoy</span>
+                <h3 class="text-3xl font-black uppercase tracking-tight mb-1">Modo Avión</h3>
+                <p class="text-xs text-gray-300 mb-4"><i class="far fa-calendar-alt mr-1"></i> Vie, 24 Jul • 10:00 PM</p>
+                <button onclick="abrirCompra('Modo Avión', 'Vie, 24 Jul', 20)" class="w-full bg-white text-black py-3 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg">
+                    Comprar General - $20
+                </button>
+            </div>
+        </div>
+
+        <!-- PRÓXIMOS EVENTOS (CATÁLOGO) -->
+        <h2 class="text-sm font-black uppercase tracking-widest text-gray-500 mb-4">Próximos Eventos</h2>
+        <div class="space-y-4">
+            
+            <!-- Evento 1 -->
+            <div class="glass-panel p-3 rounded-xl flex items-center border border-white/5">
+                <div class="w-20 h-24 rounded-lg overflow-hidden flex-shrink-0 relative">
+                    <img src="https://images.unsplash.com/photo-1558317751-bc3ed6f85f72?w=300&q=80" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/30"></div>
+                </div>
+                <div class="ml-4 flex-grow">
+                    <span class="text-redNeon text-[9px] font-bold uppercase tracking-widest">Sábado, 25 Jul</span>
+                    <h4 class="font-black text-sm uppercase mt-1">Red Room (Techno)</h4>
+                    <p class="text-[10px] text-gray-400 mt-1">DJ Invitado Internacional</p>
+                    <div class="mt-2 flex justify-between items-center">
+                        <span class="font-black text-white">$25.00</span>
+                        <button onclick="abrirCompra('Red Room', 'Sáb, 25 Jul', 25)" class="bg-redNeon/20 text-redNeon border border-redNeon/50 px-4 py-1.5 rounded text-[10px] font-bold uppercase">Boletos</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evento 2 -->
+            <div class="glass-panel p-3 rounded-xl flex items-center border border-white/5">
+                <div class="w-20 h-24 rounded-lg overflow-hidden flex-shrink-0 relative">
+                    <img src="https://images.unsplash.com/photo-1545128485-c400e7702796?w=300&q=80" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/30"></div>
+                </div>
+                <div class="ml-4 flex-grow">
+                    <span class="text-redNeon text-[9px] font-bold uppercase tracking-widest">Jueves, 30 Jul</span>
+                    <h4 class="font-black text-sm uppercase mt-1">Ladies Night Old School</h4>
+                    <p class="text-[10px] text-gray-400 mt-1">Reggaeton Clásico</p>
+                    <div class="mt-2 flex justify-between items-center">
+                        <span class="font-black text-white">$15.00</span>
+                        <button onclick="abrirCompra('Ladies Night', 'Jue, 30 Jul', 15)" class="bg-redNeon/20 text-redNeon border border-redNeon/50 px-4 py-1.5 rounded text-[10px] font-bold uppercase">Boletos</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-10 pt-6 border-t border-white/10 text-center">
+        <p class="text-[9px] text-gray-600 tracking-widest uppercase">
+            Sistema de Taquilla Independiente<br>
+            <span class="text-redNeon/70 font-bold mt-1 inline-block">Powered by TechExchange PTY</span>
+        </p>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- MODAL DE COMPRA Y UPSELL                   -->
+    <!-- ========================================== -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black/95 z-50 hidden flex-col justify-end backdrop-blur-sm">
+        <div class="bg-[#0a0a0a] rounded-t-3xl border-t border-white/10 flex flex-col max-h-[90vh] animate-fade">
+            
+            <!-- Header del Modal -->
+            <div class="p-6 border-b border-white/5 flex justify-between items-center sticky top-0 bg-[#0a0a0a] rounded-t-3xl z-10">
+                <div>
+                    <span class="text-redNeon text-[10px] font-bold uppercase tracking-widest" id="modal-fecha">Fecha</span>
+                    <h2 class="text-xl font-black uppercase" id="modal-evento">Nombre Evento</h2>
+                </div>
+                <button onclick="cerrarCompra()" class="text-gray-500 text-2xl"><i class="fas fa-times-circle"></i></button>
+            </div>
+            
+            <div class="p-6 overflow-y-auto hide-scrollbar">
+                <!-- Selector de Entradas -->
+                <div class="glass-panel p-4 rounded-xl mb-6 flex justify-between items-center">
+                    <div>
+                        <h4 class="font-black text-sm uppercase">Entrada General</h4>
+                        <p class="text-xs text-gray-400">Acceso a pista principal</p>
+                        <p class="text-redNeon font-bold text-sm mt-1" id="modal-precio-unitario">$0.00</p>
+                    </div>
+                    <div class="flex items-center bg-black rounded-lg p-1 border border-white/10">
+                        <button onclick="cambiarCant(-1)" class="w-8 h-8 rounded text-white font-black">-</button>
+                        <span id="ticket-qty" class="w-8 text-center font-black text-lg">1</span>
+                        <button onclick="cambiarCant(1)" class="w-8 h-8 rounded bg-white text-black font-black">+</button>
+                    </div>
+                </div>
+
+                <!-- Modulo de Upsell (Pre-Compra) -->
+                <h3 class="text-xs font-black uppercase tracking-widest text-gray-500 mb-3">Mejora tu experiencia</h3>
+                <div class="bg-gradient-to-r from-[#111] to-redNeon/10 border border-redNeon/30 p-4 rounded-xl mb-6 cursor-pointer" onclick="toggleUpsell()" id="upsell-card">
+                    <div class="flex justify-between items-start">
+                        <div class="w-3/4">
+                            <span class="bg-redNeon text-white text-[8px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-widest mb-2 inline-block">Fast Pass + Descuento</span>
+                            <h4 class="font-black text-sm uppercase text-white">Botella Buchanans 12</h4>
+                            <p class="text-[10px] text-gray-300 mt-1">Añádela ahora y no hagas fila en la barra.</p>
+                        </div>
+                        <div class="w-1/4 text-right">
+                            <p class="text-gray-500 line-through text-[10px]">$120</p>
+                            <p class="text-green-400 font-black text-sm">+$102</p>
+                            <div id="upsell-check" class="mt-2 w-6 h-6 border-2 border-white/20 rounded-full inline-flex items-center justify-center text-transparent transition-colors">
+                                <i class="fas fa-check text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pasarela Simulada -->
+                <div class="bg-[#111] border border-white/5 p-4 rounded-xl mb-6">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Método de Pago</p>
+                    <div class="flex items-center">
+                        <i class="fab fa-cc-apple-pay text-3xl text-white mr-3"></i>
+                        <input type="text" value="Apple Pay / Tarjeta guardada" disabled class="bg-transparent text-sm font-bold text-white w-full outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer fijo del Modal -->
+            <div class="p-6 border-t border-white/5 bg-[#0a0a0a] mt-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <p class="text-xs text-gray-400 uppercase tracking-widest">Total a pagar</p>
+                    <p class="text-3xl font-black text-white" id="modal-total">$0.00</p>
+                </div>
+                <button id="btn-pagar" onclick="procesarPago()" class="w-full bg-redNeon text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-[0_0_20px_rgba(255,0,60,0.4)] flex justify-center items-center">
+                    Completar Pago
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales para el carrito de tickets
+        let eventoActual = "";
+        let fechaActual = "";
+        let precioBase = 0;
+        let cantidad = 1;
+        let upsellActivo = false;
+        const precioUpsell = 102;
+
+        function abrirCompra(nombre, fecha, precio) {
+            eventoActual = nombre;
+            fechaActual = fecha;
+            precioBase = precio;
+            cantidad = 1;
+            upsellActivo = false;
+
+            document.getElementById('modal-evento').innerText = nombre;
+            document.getElementById('modal-fecha').innerText = fecha;
+            document.getElementById('modal-precio-unitario').innerText = `$${precio.toFixed(2)}`;
+            document.getElementById('ticket-qty').innerText = cantidad;
+            
+            // Reset UI de Upsell
+            const check = document.getElementById('upsell-check');
+            check.classList.remove('bg-redNeon', 'border-redNeon', 'text-white');
+            check.classList.add('border-white/20', 'text-transparent');
+            document.getElementById('upsell-card').classList.remove('ring-2', 'ring-redNeon');
+
+            actualizarTotal();
+
+            document.getElementById('checkout-modal').classList.remove('hidden');
+            document.getElementById('checkout-modal').classList.add('flex');
+        }
+
+        function cerrarCompra() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+            document.getElementById('checkout-modal').classList.remove('flex');
+        }
+
+        function cambiarCant(delta) {
+            cantidad = Math.max(1, cantidad + delta); // Mínimo 1 ticket
+            document.getElementById('ticket-qty').innerText = cantidad;
+            actualizarTotal();
+        }
+
+        function toggleUpsell() {
+            upsellActivo = !upsellActivo;
+            const check = document.getElementById('upsell-check');
+            const card = document.getElementById('upsell-card');
+            
+            if (upsellActivo) {
+                check.classList.remove('border-white/20', 'text-transparent');
+                check.classList.add('bg-redNeon', 'border-redNeon', 'text-white');
+                card.classList.add('ring-2', 'ring-redNeon');
+            } else {
+                check.classList.add('border-white/20', 'text-transparent');
+                check.classList.remove('bg-redNeon', 'border-redNeon', 'text-white');
+                card.classList.remove('ring-2', 'ring-redNeon');
+            }
+            actualizarTotal();
+        }
+
+        function actualizarTotal() {
+            let total = (precioBase * cantidad) + (upsellActivo ? precioUpsell : 0);
+            document.getElementById('modal-total').innerText = `$${total.toFixed(2)}`;
+        }
+
+        function procesarPago() {
+            const btn = document.getElementById('btn-pagar');
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Procesando...';
+            btn.classList.add('opacity-70');
+
+            setTimeout(() => {
+                // 1. Crear el objeto del ticket
+                const nuevoTicket = {
+                    id: 'TKT-' + Math.floor(100000 + Math.random() * 900000), // Genera un ID estilo TKT-482910
+                    evento: eventoActual,
+                    fecha: fechaActual,
+                    tipo: `General (x${cantidad})` + (upsellActivo ? " + Botella VIP" : ""),
+                    estado: "Válido"
+                };
+
+                // 2. Leer los tickets existentes del localStorage (o crear array vacío)
+                let misTickets = JSON.parse(localStorage.getItem('red_user_tickets')) || [];
+                
+                // 3. Añadir el nuevo ticket y guardar
+                misTickets.push(nuevoTicket);
+                localStorage.setItem('red_user_tickets', JSON.stringify(misTickets));
+
+                // 4. Feedback visual y redirección
+                alert(`¡Pago exitoso! Se generó el código ${nuevoTicket.id}. Tu ticket ya está en tu Perfil VIP.`);
+                
+                // Restaurar botón
+                btn.innerHTML = 'Completar Pago';
+                btn.classList.remove('opacity-70');
+                cerrarCompra();
+
+                // Redirigir al portal principal (donde el usuario puede abrir su perfil)
+                window.location.href = "index.html";
+            }, 1500); // Simulamos 1.5 seg de carga de pasarela bancaria
+        }
+    </script>
+</body>
+</html>
