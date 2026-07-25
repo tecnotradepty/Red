@@ -10,131 +10,366 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
-    <!-- Fuentes (OMNIA Style) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Fuentes Premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@400;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
     
     <style>
         /* ========================================== */
-        /* SISTEMA DE DISEÑO VISUAL INSPIRADO EN RED  */
+        /* SISTEMA DE DISEÑO: RED CASCO ANTIGUO PTY   */
+        /* Identidad Nocturna Panameña                */
         /* ========================================== */
         :root {
-            --bg-primary: #030001; /* Negro con un levísimo tono rojo */
+            --bg-primary: #050001;
+            --bg-deep: #0a0003;
             
-            /* Identidad RED */
-            --neon-red: #ff003c;
-            --deep-red: #990024;
+            /* Identidad RED — Rojo Neón Panameño */
+            --neon-red: #ff0a3c;
+            --deep-red: #8b0022;
             --crimson: #dc143c;
+            --blood: #6b0019;
+            --ember: #ff2d55;
             
-            /* Acentos VIP (Manteniendo el Lujo) */
+            /* Acentos VIP Dorado Casco */
             --gold-primary: #d4af37;
             --gold-light: #f3e5ab;
             --gold-dark: #aa7c11;
             
             --text-pure: #ffffff;
+            --text-soft: #e0ddd8;
             --text-gold: #e2c974;
+            --text-muted: #5a5558;
             
-            --glass-bg: rgba(12, 12, 14, 0.7);
-            --glass-border: rgba(255, 0, 60, 0.15); /* Bordes con sutil brillo rojo */
-            --glass-border-hover: rgba(255, 0, 60, 0.45);
+            /* Glassmorphism RED */
+            --glass-bg: rgba(8, 2, 4, 0.75);
+            --glass-bg-deep: rgba(5, 0, 1, 0.88);
+            --glass-border: rgba(255, 10, 60, 0.12);
+            --glass-border-hover: rgba(255, 10, 60, 0.5);
+            --glass-glow: rgba(255, 10, 60, 0.08);
             
             --font-headings: 'Outfit', sans-serif;
+            --font-display: 'Bebas Neue', sans-serif;
             --font-body: 'Inter', sans-serif;
         }
 
-        body { background-color: var(--bg-primary); color: var(--text-pure); font-family: var(--font-body); overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        /* === BASE === */
+        body { 
+            background-color: var(--bg-primary); 
+            color: var(--text-pure); 
+            font-family: var(--font-body); 
+            overflow-x: hidden; 
+            -webkit-tap-highlight-color: transparent; 
+        }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .animate-fade { animation: fadeIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 🌌 Fondo Animado de Iluminación Ambiental (RED VIBE) */
+        /* === 🎞️ GRAIN TEXTURE — Estética de Flyer de Club Panameño === */
+        .grain-overlay {
+            position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+            z-index: 9999; pointer-events: none; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+            animation: grain 0.5s steps(3) infinite;
+        }
+        @keyframes grain { 0%, 100% { transform: translate(0,0); } 25% { transform: translate(-2%,-3%); } 50% { transform: translate(3%,1%); } 75% { transform: translate(-1%,2%); } }
+
+        /* === 🌌 ILUMINACIÓN AMBIENTAL MULTICAPA (Simula Luces de Club) === */
         .kinetic-ambient-glow {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2;
-            background: radial-gradient(circle at 20% 30%, rgba(255, 0, 60, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(153, 0, 36, 0.12) 0%, transparent 60%);
-            filter: blur(70px); animation: kinetic-lights 15s infinite alternate ease-in-out; pointer-events: none;
+            background: 
+                radial-gradient(ellipse at 15% 20%, rgba(255, 10, 60, 0.18) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 75%, rgba(139, 0, 34, 0.14) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 50%, rgba(220, 20, 60, 0.06) 0%, transparent 70%);
+            filter: blur(80px); 
+            animation: kinetic-lights 12s infinite alternate ease-in-out; 
+            pointer-events: none;
         }
         @keyframes kinetic-lights {
-            0% { transform: scale(1) rotate(0deg); }
-            50% { background-color: rgba(220, 20, 60, 0.05); transform: scale(1.1) rotate(180deg); }
-            100% { transform: scale(1) rotate(360deg); }
+            0%   { transform: scale(1) rotate(0deg); opacity: 1; }
+            33%  { transform: scale(1.15) rotate(60deg); opacity: 0.85; }
+            66%  { transform: scale(0.95) rotate(200deg); opacity: 1; }
+            100% { transform: scale(1.1) rotate(360deg); opacity: 0.9; }
         }
 
-        /* 🎟️ Tarjeta Premium Glassmorphic */
+        /* === ✨ PARTÍCULAS FLOTANTES CSS (Efecto de Humo/Chispas del Club) === */
+        .particles-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none; overflow: hidden;
+        }
+        .particle {
+            position: absolute; width: 2px; height: 2px;
+            background: var(--neon-red); border-radius: 50%;
+            opacity: 0; animation: float-particle linear infinite;
+            box-shadow: 0 0 6px 1px rgba(255, 10, 60, 0.4);
+        }
+        .particle:nth-child(odd) { background: rgba(255,255,255,0.5); box-shadow: 0 0 4px rgba(255,255,255,0.2); width: 1px; height: 1px; }
+        .particle:nth-child(1)  { left: 10%; animation-duration: 18s; animation-delay: 0s; }
+        .particle:nth-child(2)  { left: 25%; animation-duration: 22s; animation-delay: 2s; }
+        .particle:nth-child(3)  { left: 40%; animation-duration: 16s; animation-delay: 4s; }
+        .particle:nth-child(4)  { left: 55%; animation-duration: 25s; animation-delay: 1s; }
+        .particle:nth-child(5)  { left: 70%; animation-duration: 20s; animation-delay: 3s; }
+        .particle:nth-child(6)  { left: 85%; animation-duration: 17s; animation-delay: 5s; }
+        .particle:nth-child(7)  { left: 5%;  animation-duration: 23s; animation-delay: 7s; }
+        .particle:nth-child(8)  { left: 50%; animation-duration: 19s; animation-delay: 6s; }
+        .particle:nth-child(9)  { left: 92%; animation-duration: 21s; animation-delay: 0.5s; }
+        .particle:nth-child(10) { left: 35%; animation-duration: 24s; animation-delay: 8s; }
+        @keyframes float-particle {
+            0%   { transform: translateY(105vh) scale(0); opacity: 0; }
+            10%  { opacity: 0.7; }
+            90%  { opacity: 0.3; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        /* === 📢 MARQUEE TICKER — Identidad Casco Antiguo PTY === */
+        .marquee-strip {
+            background: linear-gradient(90deg, var(--deep-red), var(--neon-red), var(--deep-red));
+            overflow: hidden; white-space: nowrap; position: relative;
+            padding: 6px 0; border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .marquee-strip::before, .marquee-strip::after {
+            content: ''; position: absolute; top: 0; bottom: 0; width: 40px; z-index: 2;
+        }
+        .marquee-strip::before { left: 0; background: linear-gradient(90deg, var(--deep-red), transparent); }
+        .marquee-strip::after  { right: 0; background: linear-gradient(90deg, transparent, var(--deep-red)); }
+        .marquee-content {
+            display: inline-block; animation: marquee 25s linear infinite;
+            font-family: var(--font-headings); font-weight: 800; font-size: 9px;
+            text-transform: uppercase; letter-spacing: 0.35em; color: white;
+        }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* === 🎟️ TARJETA PREMIUM GLASSMORPHIC (Mejorada) === */
         .card-vip {
-            background: var(--glass-bg); backdrop-filter: blur(16px) saturate(130%); -webkit-backdrop-filter: blur(16px) saturate(130%);
-            border: 1px solid var(--glass-border); border-radius: 12px;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden;
+            background: var(--glass-bg); 
+            backdrop-filter: blur(20px) saturate(140%); 
+            -webkit-backdrop-filter: blur(20px) saturate(140%);
+            border: 1px solid var(--glass-border); border-radius: 14px;
+            transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1); 
+            position: relative; overflow: hidden;
         }
         .card-vip::before {
-            content: ''; position: absolute; top: 0; left: -50%; width: 200%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 0, 60, 0.05), transparent);
-            transform: rotate(30deg); transition: 0.8s; pointer-events: none;
+            content: ''; position: absolute; top: 0; left: -60%; width: 220%; height: 100%;
+            background: linear-gradient(105deg, transparent 40%, rgba(255, 10, 60, 0.06) 50%, transparent 60%);
+            transition: 0.9s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none;
         }
-        .card-vip:hover { border-color: var(--glass-border-hover); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 0, 60, 0.2); transform: translateY(-5px); }
-        .card-vip:hover::before { left: 100%; }
+        .card-vip:hover { 
+            border-color: var(--glass-border-hover); 
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 10, 60, 0.15), inset 0 1px 0 rgba(255,255,255,0.03); 
+            transform: translateY(-4px); 
+        }
+        .card-vip:hover::before { left: 110%; }
 
-        /* 🏷️ Títulos */
-        .title-premium { font-family: var(--font-headings); font-weight: 900; text-transform: uppercase; letter-spacing: 4px; line-height: 1.1; }
-        .title-sub-gold { font-family: var(--font-headings); font-weight: 600; text-transform: uppercase; letter-spacing: 3px; color: var(--text-gold); }
+        /* === 🏷️ TÍTULOS === */
+        .title-premium { 
+            font-family: var(--font-headings); font-weight: 900; 
+            text-transform: uppercase; letter-spacing: 4px; line-height: 1.05; 
+        }
+        .title-display {
+            font-family: var(--font-display); font-weight: 400;
+            text-transform: uppercase; letter-spacing: 6px; line-height: 0.95;
+        }
+        .title-sub-gold { 
+            font-family: var(--font-headings); font-weight: 600; 
+            text-transform: uppercase; letter-spacing: 3px; color: var(--text-gold); 
+        }
+        .text-glow-red {
+            text-shadow: 0 0 20px rgba(255, 10, 60, 0.5), 0 0 60px rgba(255, 10, 60, 0.2);
+        }
 
-        /* 🔘 Botones de Acción */
+        /* === 🔘 BOTONES === */
         .btn-gold {
             background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold-primary) 50%, var(--gold-light) 100%);
             color: #000000; font-family: var(--font-headings); font-weight: 800; text-transform: uppercase; letter-spacing: 2px;
-            border-radius: 4px; padding: 14px 28px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25); display: inline-block; text-align: center;
+            border-radius: 6px; padding: 14px 28px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2), inset 0 1px 0 rgba(255,255,255,0.3); 
+            display: inline-block; text-align: center;
+            border: none;
         }
-        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5), 0 0 15px rgba(243, 229, 171, 0.3); }
+        .btn-gold:hover { 
+            transform: translateY(-2px) scale(1.01); 
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.45), 0 0 20px rgba(243, 229, 171, 0.25); 
+        }
+        .btn-gold:active { transform: translateY(0) scale(0.98); }
 
         .btn-neon-outline {
-            background: transparent; color: var(--text-pure); font-family: var(--font-headings); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
-            border: 1px solid var(--neon-red); border-radius: 4px; padding: 12px 26px; transition: all 0.3s ease; display: inline-block; text-align: center;
+            background: transparent; color: var(--text-pure); 
+            font-family: var(--font-headings); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+            border: 1px solid var(--neon-red); border-radius: 6px; padding: 12px 26px; 
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+            display: inline-block; text-align: center;
+            position: relative; overflow: hidden;
         }
-        .btn-neon-outline:hover { background: var(--neon-red); box-shadow: 0 0 20px var(--neon-red), 0 0 10px rgba(255, 0, 60, 0.3); }
+        .btn-neon-outline::after {
+            content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0;
+            background: var(--neon-red); border-radius: 50%;
+            transform: translate(-50%, -50%); transition: width 0.5s, height 0.5s; z-index: -1;
+        }
+        .btn-neon-outline:hover { 
+            box-shadow: 0 0 25px rgba(255, 10, 60, 0.4), 0 0 60px rgba(255, 10, 60, 0.1);
+            border-color: var(--ember);
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        .btn-neon-outline:hover::after { width: 400px; height: 400px; }
 
-        /* Sidebar y Nav */
-        #sidebar { transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        /* === SIDEBAR & NAV === */
+        #sidebar { transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
         .sidebar-open { transform: translateX(0); }
         .sidebar-closed { transform: translateX(100%); }
-        .nav-active i { color: var(--neon-red); text-shadow: 0 0 10px rgba(255, 0, 60, 0.5); }
+        .nav-active i { color: var(--neon-red); text-shadow: 0 0 12px rgba(255, 10, 60, 0.6); }
+        .nav-active span { color: var(--neon-red); }
         
-        /* Efecto de mezcla para logos con fondo negro */
+        /* Logo */
         .logo-blend { mix-blend-mode: screen; }
+
+        /* === 🏷️ LOCATION BADGE === */
+        .location-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-family: var(--font-headings); font-weight: 700;
+            font-size: 8px; text-transform: uppercase; letter-spacing: 0.4em;
+            color: var(--text-muted); padding: 5px 12px;
+            border: 1px solid rgba(255,255,255,0.06); border-radius: 100px;
+            background: rgba(255,255,255,0.02);
+        }
+        .location-badge i { color: var(--neon-red); font-size: 7px; }
+
+        /* === LINEA DECORATIVA RED === */
+        .red-line {
+            width: 40px; height: 2px; 
+            background: linear-gradient(90deg, var(--neon-red), var(--deep-red));
+            border-radius: 2px; margin: 0 auto;
+            box-shadow: 0 0 8px rgba(255, 10, 60, 0.3);
+        }
+
+        /* === STAT COUNTERS (Inspirado en Ibiza Casinos) === */
+        .stat-counter {
+            text-align: center; padding: 16px 8px;
+        }
+        .stat-counter .stat-number {
+            font-family: var(--font-display); font-size: 2.5rem; line-height: 1;
+            color: var(--neon-red); 
+            text-shadow: 0 0 20px rgba(255, 10, 60, 0.3);
+        }
+        .stat-counter .stat-label {
+            font-family: var(--font-headings); font-weight: 700;
+            font-size: 7px; text-transform: uppercase; letter-spacing: 0.3em;
+            color: var(--text-muted); margin-top: 6px;
+        }
+
+        /* === SECTION DIVIDER (Línea Atmosférica) === */
+        .section-divider {
+            height: 1px; width: 100%; 
+            background: linear-gradient(90deg, transparent, rgba(255, 10, 60, 0.2), rgba(255, 10, 60, 0.05), transparent);
+            margin: 0;
+        }
+
+        /* === PULSING DOT === */
+        .pulse-dot {
+            width: 6px; height: 6px; border-radius: 50%; background: var(--neon-red);
+            box-shadow: 0 0 10px var(--neon-red), 0 0 20px rgba(255, 10, 60, 0.3);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 6px var(--neon-red), 0 0 15px rgba(255, 10, 60, 0.2); opacity: 1; }
+            50% { box-shadow: 0 0 12px var(--neon-red), 0 0 30px rgba(255, 10, 60, 0.4); opacity: 0.7; }
+        }
+
+        /* === HOVER UNDERLINE LINKS === */
+        .sidebar-link {
+            position: relative; padding-bottom: 2px;
+        }
+        .sidebar-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 32px; right: 0;
+            height: 1px; background: var(--neon-red); transform: scaleX(0);
+            transform-origin: left; transition: transform 0.3s ease;
+        }
+        .sidebar-link:hover::after { transform: scaleX(1); }
+
+        /* === EVENT CARD FECHA BADGE === */
+        .date-badge {
+            background: var(--neon-red); color: white;
+            font-family: var(--font-headings); font-weight: 800;
+            font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+            padding: 4px 10px; border-radius: 4px;
+            box-shadow: 0 2px 12px rgba(255, 10, 60, 0.4);
+            display: inline-block;
+        }
+
+        /* === GENRE TAG === */
+        .genre-tag {
+            display: inline-block; padding: 3px 10px; border-radius: 100px;
+            font-family: var(--font-headings); font-weight: 600;
+            font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+            border: 1px solid rgba(255,255,255,0.08); color: var(--text-soft);
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* === FOOTER STAMP WATERMARK === */
+        .watermark-stamp {
+            font-family: var(--font-display); font-size: 80px; line-height: 1;
+            color: rgba(255, 10, 60, 0.03); text-transform: uppercase;
+            letter-spacing: 0.15em; pointer-events: none; user-select: none;
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body class="pb-24">
 
-    <!-- Fondo Ambient -->
+    <!-- Textura de Grano (Estética Flyer/Poster Panameño) -->
+    <div class="grain-overlay"></div>
+
+    <!-- Partículas Flotantes (Simula atmósfera de humo del club) -->
+    <div class="particles-container">
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Fondo Ambient Multicapa -->
     <div class="kinetic-ambient-glow"></div>
 
     <!-- HEADER GLOBAL CON LOGO DE RED -->
-    <header class="fixed top-0 w-full z-40 bg-black/40 backdrop-blur-md border-b border-redNeon/20 p-5 flex justify-between items-center transition-all duration-300">
+    <header class="fixed top-0 w-full z-40 bg-black/50 backdrop-blur-xl border-b border-white/[0.04] px-5 py-4 flex justify-between items-center transition-all duration-300">
         <!-- Logo desde el repositorio (URL RAW) -->
-        <img src="https://raw.githubusercontent.com/tecnotradepty/Red/f5371dd291d84d225ca9de079ac75e584d78fdd7/imagenes/redicon.jpg" alt="RED Logo" class="h-8 logo-blend">
+        <div class="flex items-center gap-3">
+            <img src="https://raw.githubusercontent.com/tecnotradepty/Red/f5371dd291d84d225ca9de079ac75e584d78fdd7/imagenes/redicon.jpg" alt="RED Logo" class="h-8 logo-blend">
+            <span class="location-badge hidden sm:inline-flex"><i class="fas fa-map-pin"></i> Casco Antiguo, PTY</span>
+        </div>
         
-        <button onclick="toggleSidebar()" class="text-white text-xl p-2 hover:text-redNeon transition"><i class="fas fa-bars"></i></button>
+        <button onclick="toggleSidebar()" class="text-white/70 text-xl p-2 hover:text-white transition"><i class="fas fa-bars"></i></button>
     </header>
 
     <!-- SIDEBAR (Menú Hamburguesa) -->
-    <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/80 z-40 hidden backdrop-blur-md transition-opacity"></div>
-    <aside id="sidebar" class="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-[#0a0a0a] z-50 sidebar-closed border-l border-redNeon/30 shadow-2xl flex flex-col">
-        <div class="p-8 flex justify-between items-center border-b border-white/5">
-            <!-- Logo también en el sidebar -->
+    <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/85 z-40 hidden backdrop-blur-lg transition-opacity"></div>
+    <aside id="sidebar" class="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-[#060002] z-50 sidebar-closed border-l border-white/[0.04] shadow-2xl flex flex-col" style="box-shadow: -20px 0 60px rgba(255,10,60,0.05);">
+        <div class="p-8 flex justify-between items-center border-b border-white/[0.04]">
             <img src="https://raw.githubusercontent.com/tecnotradepty/Red/f5371dd291d84d225ca9de079ac75e584d78fdd7/imagenes/redicon.jpg" alt="RED Logo" class="h-6 logo-blend">
-            <button onclick="toggleSidebar()" class="text-gray-400 text-2xl hover:text-white"><i class="fas fa-times"></i></button>
+            <button onclick="toggleSidebar()" class="text-gray-500 text-2xl hover:text-white transition"><i class="fas fa-times"></i></button>
         </div>
-        <div class="p-8 flex flex-col space-y-8 flex-grow">
-            <a href="formulario.html" class="flex items-center text-sm font-headings font-bold uppercase tracking-widest hover:text-redNeon transition">
-                <i class="fas fa-handshake w-8 text-redNeon"></i> Colaboraciones
+        <div class="p-8 flex flex-col space-y-7 flex-grow">
+            <a href="formulario.html" class="sidebar-link flex items-center text-sm font-headings font-bold uppercase tracking-widest text-white/60 hover:text-white transition">
+                <i class="fas fa-handshake w-8 text-[var(--neon-red)]" style="font-size: 13px;"></i> Colaboraciones
             </a>
-            <a href="#" class="flex items-center text-sm font-headings font-bold uppercase tracking-widest hover:text-redNeon transition">
-                <i class="fas fa-camera-retro w-8 text-redNeon"></i> Galería Visual
+            <a href="#" class="sidebar-link flex items-center text-sm font-headings font-bold uppercase tracking-widest text-white/60 hover:text-white transition">
+                <i class="fas fa-camera-retro w-8 text-[var(--neon-red)]" style="font-size: 13px;"></i> Galería Visual
             </a>
-            <a href="#" class="flex items-center text-sm font-headings font-bold uppercase tracking-widest hover:text-redNeon transition">
-                <i class="fas fa-tshirt w-8 text-redNeon"></i> Dress Code
+            <a href="#" class="sidebar-link flex items-center text-sm font-headings font-bold uppercase tracking-widest text-white/60 hover:text-white transition">
+                <i class="fas fa-tshirt w-8 text-[var(--neon-red)]" style="font-size: 13px;"></i> Dress Code
             </a>
+
+            <!-- Social Icons en Sidebar (Cultura IG de Panamá) -->
+            <div class="pt-6 mt-auto border-t border-white/[0.04]">
+                <p class="font-headings font-bold uppercase tracking-[0.3em] text-[7px] text-gray-600 mb-4">Síguenos</p>
+                <div class="flex gap-4">
+                    <a href="https://www.instagram.com/red_casco_promotor/" target="_blank" class="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[var(--neon-red)] hover:border-[var(--neon-red)]/30 transition text-sm"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[var(--neon-red)] hover:border-[var(--neon-red)]/30 transition text-sm"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[var(--neon-red)] hover:border-[var(--neon-red)]/30 transition text-sm"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
         </div>
-        <div class="p-8 border-t border-white/5 text-center">
-            <p class="text-[10px] text-gray-500 uppercase tracking-widest font-headings">Operado por Parranda Group S.A.<br><span class="text-xs font-bold mt-2 inline-block text-white">TECHEXCHANGE PTY</span></p>
+        <div class="p-8 border-t border-white/[0.04] text-center relative overflow-hidden">
+            <p class="text-[8px] text-gray-600 uppercase tracking-[0.3em] font-headings mb-1">Operado por Parranda Group S.A.</p>
+            <span class="text-[10px] font-bold text-white/30 font-headings uppercase tracking-[0.2em]">TECHEXCHANGE PTY</span>
         </div>
     </aside>
 
@@ -144,65 +379,116 @@
     <main id="view-portal" class="block animate-fade pb-10">
         
         <!-- Hero Section -->
-        <div class="relative h-[85vh] w-full flex items-end pb-24 border-b border-redNeon/20">
+        <div class="relative h-[92vh] w-full flex items-end pb-28">
             <!-- Background Hero -->
             <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="absolute inset-0 w-full h-full object-cover" alt="Club Hero">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#030001] via-[#030001]/60 to-transparent"></div>
+            <!-- Overlay triple capa para profundidad -->
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050001] via-[#050001]/70 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#050001]/40 via-transparent to-transparent"></div>
+            <div class="absolute inset-0" style="background: radial-gradient(ellipse at 50% 30%, rgba(255,10,60,0.08) 0%, transparent 70%);"></div>
             
             <div class="relative z-10 px-6 w-full text-center">
                 
                 <!-- INSIGNIA: Coming Soon & Prototipo -->
-                <div class="mb-6 flex flex-col items-center animate-fade" style="animation-delay: 0.2s;">
-                    <div class="bg-black/60 border border-white/20 backdrop-blur-md px-5 py-2 rounded-full flex items-center mb-3" style="box-shadow: 0 0 25px rgba(255,0,60,0.15);">
-                        <span class="w-2 h-2 rounded-full bg-[#ff003c] animate-pulse mr-3" style="box-shadow: 0 0 10px #ff003c;"></span>
-                        <span class="text-white font-headings font-black text-[10px] uppercase tracking-[0.3em]">Coming Soon</span>
+                <div class="mb-8 flex flex-col items-center animate-fade" style="animation-delay: 0.2s;">
+                    <div class="bg-black/60 border border-white/10 backdrop-blur-xl px-5 py-2.5 rounded-full flex items-center mb-4" style="box-shadow: 0 0 30px rgba(255,10,60,0.12), inset 0 0 20px rgba(255,10,60,0.03);">
+                        <div class="pulse-dot mr-3"></div>
+                        <span class="text-white font-headings font-black text-[9px] uppercase tracking-[0.35em]">Coming Soon</span>
                     </div>
-                    <p class="text-gray-400 font-headings text-[8px] uppercase tracking-[0.4em] drop-shadow-md">
-                        Prototipo de Muestra para RED Panamá
-                    </p>
+                    <span class="location-badge mb-2"><i class="fas fa-map-pin"></i> Casco Antiguo, Panamá</span>
                 </div>
 
-                <h2 class="title-premium text-5xl md:text-6xl mb-6 drop-shadow-2xl">REDEFINIENDO<br>LA NOCHE</h2>
+                <!-- Título Hero con fuente Display -->
+                <h2 class="title-display text-7xl md:text-8xl mb-3 text-glow-red" style="letter-spacing: 8px;">REDEFINIENDO</h2>
+                <h2 class="title-display text-5xl md:text-6xl mb-8 text-white/80" style="letter-spacing: 12px;">LA NOCHE</h2>
                 
-                <div class="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4 max-w-md mx-auto">
-                    <a href="vip.html" class="btn-gold w-full">Reservar Mesa VIP</a>
-                    <a href="ticket.html" class="btn-neon-outline w-full">Ver Próximos DJs</a>
+                <p class="text-[10px] text-white/30 font-headings uppercase tracking-[0.4em] mb-8 max-w-xs mx-auto">Donde el Casco se prende — Reggaeton · Plena · Urban</p>
+
+                <div class="flex flex-col space-y-3 md:flex-row md:space-y-0 md:space-x-4 max-w-md mx-auto">
+                    <a href="vip.html" class="btn-gold w-full text-sm">Reservar Mesa VIP</a>
+                    <a href="ticket.html" class="btn-neon-outline w-full text-sm">Ver Próximos DJs</a>
                 </div>
             </div>
         </div>
 
+        <!-- MARQUEE TICKER — Identidad Panameña -->
+        <div class="marquee-strip">
+            <div class="marquee-content">
+                <span>RED Casco Antiguo &nbsp;◆&nbsp; La Experiencia Suprema &nbsp;◆&nbsp; Reggaeton &nbsp;◆&nbsp; Plena Panameña &nbsp;◆&nbsp; Urban Vibes &nbsp;◆&nbsp; VIP Tables &nbsp;◆&nbsp; Casco Viejo, PTY &nbsp;◆&nbsp; Cada Viernes y Sábado &nbsp;◆&nbsp; </span>
+                <span>RED Casco Antiguo &nbsp;◆&nbsp; La Experiencia Suprema &nbsp;◆&nbsp; Reggaeton &nbsp;◆&nbsp; Plena Panameña &nbsp;◆&nbsp; Urban Vibes &nbsp;◆&nbsp; VIP Tables &nbsp;◆&nbsp; Casco Viejo, PTY &nbsp;◆&nbsp; Cada Viernes y Sábado &nbsp;◆&nbsp; </span>
+            </div>
+        </div>
+
+        <!-- STAT COUNTERS (Inspirado en Ibiza Casinos Panama) -->
+        <div class="grid grid-cols-3 border-b border-white/[0.04]">
+            <div class="stat-counter border-r border-white/[0.04]">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Capacidad</div>
+            </div>
+            <div class="stat-counter border-r border-white/[0.04]">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Ambientes</div>
+            </div>
+            <div class="stat-counter">
+                <div class="stat-number">VIP</div>
+                <div class="stat-label">Experiencia</div>
+            </div>
+        </div>
+
         <!-- Próximos Eventos -->
-        <div class="px-6 py-12">
-            <h3 class="title-sub-gold text-sm mb-6 text-center text-redNeon">Lineup Oficial</h3>
+        <div class="px-6 py-12 relative">
+            <div class="text-center mb-8">
+                <div class="red-line mb-4"></div>
+                <h3 class="title-sub-gold text-xs mb-2">Lineup Oficial</h3>
+                <p class="text-[9px] text-white/20 font-headings uppercase tracking-[0.3em]">Próximos Eventos en RED</p>
+            </div>
             
             <div class="space-y-6">
                 <!-- Tarjeta Evento -->
                 <div class="card-vip p-0 flex flex-col group cursor-pointer" onclick="window.location.href='ticket.html'">
-                    <div class="h-48 relative overflow-hidden rounded-t-xl">
-                        <img src="https://images.unsplash.com/photo-1558317751-bc3ed6f85f72?w=800&q=80" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#0c0c0e] to-transparent"></div>
+                    <div class="h-52 relative overflow-hidden" style="border-radius: 14px 14px 0 0;">
+                        <img src="https://images.unsplash.com/photo-1558317751-bc3ed6f85f72?w=800&q=80" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700 brightness-75 group-hover:brightness-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#060002] via-transparent to-transparent"></div>
+                        <!-- Fecha Badge Flotante -->
+                        <div class="absolute top-4 left-4">
+                            <div class="date-badge">Vie 25 Jul</div>
+                        </div>
                     </div>
                     <div class="p-6">
-                        <span class="font-headings font-bold text-redNeon uppercase tracking-widest text-[10px] block mb-2">Viernes, 24 Jul</span>
-                        <h4 class="title-premium text-2xl mb-1">MODO AVIÓN</h4>
-                        <p class="text-xs text-gray-400 font-body mb-4">Reggaeton & Urban Vibes</p>
-                        <div class="flex justify-between items-center border-t border-white/5 pt-4">
-                            <span class="font-headings font-bold text-white text-lg">$20.00</span>
-                            <span class="text-[10px] font-headings font-bold uppercase tracking-widest text-gray-400 group-hover:text-redNeon transition">Adquirir <i class="fas fa-chevron-right ml-1"></i></span>
+                        <h4 class="title-premium text-2xl mb-2 group-hover:text-glow-red transition-all duration-300">MODO AVIÓN</h4>
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="genre-tag">Reggaeton</span>
+                            <span class="genre-tag">Urban</span>
+                        </div>
+                        <div class="flex justify-between items-center border-t border-white/[0.04] pt-4">
+                            <div>
+                                <span class="text-[8px] font-headings font-bold text-white/30 uppercase tracking-widest block">Desde</span>
+                                <span class="font-headings font-black text-white text-xl">$20</span>
+                            </div>
+                            <span class="text-[9px] font-headings font-bold uppercase tracking-widest text-white/30 group-hover:text-[var(--neon-red)] transition flex items-center gap-2">
+                                Adquirir <i class="fas fa-arrow-right text-[8px]"></i>
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div class="section-divider"></div>
+
         <!-- Call to Action 3D Tour -->
-        <div class="px-6 pb-12 text-center">
-            <div class="card-vip p-8 bg-[url('https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?w=800&q=80')] bg-cover bg-center bg-blend-overlay" style="background-color: rgba(10,0,0,0.85);">
-                <i class="fas fa-cube text-3xl mb-4 text-redNeon"></i>
+        <div class="px-6 py-12 text-center relative">
+            <div class="card-vip p-8 bg-[url('https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?w=800&q=80')] bg-cover bg-center bg-blend-overlay" style="background-color: rgba(5,0,1,0.9);">
+                <div class="w-14 h-14 mx-auto mb-5 rounded-full border border-white/10 flex items-center justify-center bg-white/[0.02]" style="box-shadow: 0 0 25px rgba(255,10,60,0.1);">
+                    <i class="fas fa-cube text-xl text-[var(--neon-red)]"></i>
+                </div>
                 <h3 class="title-premium text-xl mb-2">Explora el Entorno</h3>
-                <p class="text-xs text-gray-300 font-body mb-6 w-4/5 mx-auto">Visualiza las zonas VIP en nuestro recorrido interactivo de 360°.</p>
+                <p class="text-xs text-white/40 font-body mb-6 w-4/5 mx-auto">Visualiza las zonas VIP en nuestro recorrido interactivo de 360°.</p>
                 <a href="tour.html" class="btn-neon-outline w-full text-xs">Iniciar Tour Inmersivo</a>
             </div>
+
+            <!-- Watermark decorativo -->
+            <div class="watermark-stamp">RED CASCO</div>
         </div>
     </main>
 
@@ -212,20 +498,22 @@
     <main id="view-club" class="hidden animate-fade pt-28 px-6 min-h-screen">
         
         <div id="club-step-1" class="block text-center mt-6">
-            <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-redNeon flex items-center justify-center bg-redNeon/10 shadow-[0_0_20px_rgba(255,0,60,0.2)]">
-                <i class="fas fa-concierge-bell text-2xl text-redNeon"></i>
+            <div class="w-16 h-16 mx-auto mb-6 rounded-full border border-[var(--neon-red)]/30 flex items-center justify-center bg-[var(--neon-red)]/5" style="box-shadow: 0 0 30px rgba(255,10,60,0.12);">
+                <i class="fas fa-concierge-bell text-2xl text-[var(--neon-red)]"></i>
             </div>
             <h2 class="title-premium text-2xl mb-3">Servicio Digital</h2>
-            <p class="text-sm text-gray-400 font-body mb-10">Selecciona tu modalidad de pedido para acceder al menú.</p>
+            <p class="text-sm text-white/35 font-body mb-10">Selecciona tu modalidad de pedido para acceder al menú.</p>
             
             <div class="space-y-4">
                 <button onclick="setModalidad('barra')" class="w-full card-vip py-6 flex flex-col items-center justify-center text-center group">
-                    <i class="fas fa-cocktail text-2xl mb-3 text-redNeon"></i>
-                    <span class="font-headings font-bold uppercase tracking-widest text-sm group-hover:text-white transition">Fast Pass Barra</span>
+                    <i class="fas fa-cocktail text-2xl mb-3 text-[var(--neon-red)]"></i>
+                    <span class="font-headings font-bold uppercase tracking-widest text-sm text-white/60 group-hover:text-white transition">Fast Pass Barra</span>
+                    <span class="text-[8px] font-headings text-white/20 uppercase tracking-widest mt-2">Sin fila · Pide y recoge</span>
                 </button>
                 <button onclick="mostrarLoginMesa()" class="w-full card-vip py-6 flex flex-col items-center justify-center text-center group">
                     <i class="fas fa-couch text-2xl mb-3" style="color: var(--gold-primary);"></i>
-                    <span class="font-headings font-bold uppercase tracking-widest text-sm group-hover:text-white transition">Servicio a Mesa VIP</span>
+                    <span class="font-headings font-bold uppercase tracking-widest text-sm text-white/60 group-hover:text-white transition">Servicio a Mesa VIP</span>
+                    <span class="text-[8px] font-headings text-white/20 uppercase tracking-widest mt-2">Botellas · Servicio directo</span>
                 </button>
             </div>
         </div>
@@ -233,26 +521,26 @@
         <div id="club-step-2" class="hidden text-center mt-6">
             <button onclick="volverAClubHome()" class="text-gray-500 mb-8 flex items-center text-[10px] uppercase font-bold tracking-widest hover:text-white"><i class="fas fa-arrow-left mr-2"></i> Volver</button>
             <h2 class="title-premium text-2xl mb-3">Conecta tu Mesa</h2>
-            <p class="text-sm text-gray-400 font-body mb-8">Usa tu cámara o ingresa el código asignado por tu Host.</p>
+            <p class="text-sm text-white/35 font-body mb-8">Usa tu cámara o ingresa el código asignado por tu Host.</p>
             
-            <input type="text" id="codigo-mesa" placeholder="Ej: mesavip1" class="w-full bg-black/50 border border-white/10 text-white text-center rounded-lg p-5 text-lg font-headings font-bold uppercase focus:outline-none focus:border-redNeon transition mb-6">
+            <input type="text" id="codigo-mesa" placeholder="Ej: mesavip1" class="w-full bg-black/50 border border-white/10 text-white text-center rounded-lg p-5 text-lg font-headings font-bold uppercase focus:outline-none focus:border-[var(--neon-red)]/50 focus:shadow-[0_0_20px_rgba(255,10,60,0.1)] transition mb-6">
             <button onclick="validarMesa()" class="btn-gold w-full">Autorizar Dispositivo</button>
         </div>
 
         <div id="club-step-3" class="hidden pb-32">
-            <div class="flex justify-between items-end mb-8 border-b border-white/10 pb-4">
+            <div class="flex justify-between items-end mb-8 border-b border-white/[0.04] pb-4">
                 <div>
-                    <span class="font-headings font-bold text-redNeon uppercase tracking-widest text-[9px]" id="etiqueta-modalidad">Modalidad</span>
+                    <span class="font-headings font-bold text-[var(--neon-red)] uppercase tracking-widest text-[9px]" id="etiqueta-modalidad">Modalidad</span>
                     <h2 class="title-premium text-xl mt-1" id="titulo-modalidad">Menú</h2>
                 </div>
-                <button onclick="volverAClubHome()" class="text-gray-400 text-[10px] font-bold uppercase tracking-widest hover:text-white"><i class="fas fa-sync-alt mr-1"></i> Cambiar</button>
+                <button onclick="volverAClubHome()" class="text-white/25 text-[10px] font-bold uppercase tracking-widest hover:text-white transition"><i class="fas fa-sync-alt mr-1"></i> Cambiar</button>
             </div>
 
             <div class="grid grid-cols-2 gap-4" id="product-grid"></div>
             
-            <div class="fixed bottom-[80px] left-4 right-4 card-vip p-4 flex justify-between items-center z-30 shadow-2xl">
+            <div class="fixed bottom-[80px] left-4 right-4 card-vip p-4 flex justify-between items-center z-30" style="box-shadow: 0 -10px 40px rgba(0,0,0,0.8), 0 0 30px rgba(255,10,60,0.08);">
                 <div>
-                    <p class="font-headings font-bold text-gray-400 uppercase tracking-widest text-[8px]">Monto Actual</p>
+                    <p class="font-headings font-bold text-white/25 uppercase tracking-widest text-[8px]">Monto Actual</p>
                     <p class="text-xl font-headings font-black text-white" id="cart-total">$0</p>
                 </div>
                 <button id="btn-checkout" onclick="procesarCheckout()" class="btn-gold py-2 px-6 text-[10px]">
@@ -264,21 +552,21 @@
 
     <!-- Modales In-Club -->
     <div id="qr-modal" class="fixed inset-0 bg-black/95 z-[70] hidden flex-col justify-center items-center p-6 backdrop-blur-xl">
-        <h2 class="title-premium text-2xl mb-2 text-center text-redNeon">Pase Generado</h2>
-        <p class="text-gray-400 font-body text-center mb-8 text-sm">Presenta este código al staff de la barra.</p>
-        <div class="bg-white p-4 rounded-xl mb-8 border-2 border-redNeon shadow-[0_0_30px_rgba(255,0,60,0.3)]"><div id="qrcode"></div></div>
+        <h2 class="title-premium text-2xl mb-2 text-center text-[var(--neon-red)] text-glow-red">Pase Generado</h2>
+        <p class="text-white/40 font-body text-center mb-8 text-sm">Presenta este código al staff de la barra.</p>
+        <div class="bg-white p-4 rounded-xl mb-8" style="border: 2px solid var(--neon-red); box-shadow: 0 0 40px rgba(255,10,60,0.25);"><div id="qrcode"></div></div>
         <button onclick="cerrarModal('qr-modal')" class="btn-neon-outline w-full max-w-sm">Cerrar Pase</button>
     </div>
 
     <div id="payment-modal" class="fixed inset-0 bg-black/90 z-[70] hidden flex-col justify-end backdrop-blur-md">
-        <div class="card-vip rounded-t-3xl rounded-b-none border-b-0 p-8 w-full animate-fade">
-            <h2 class="title-premium text-xl mb-8 flex justify-between items-center">Confirmar Orden <i class="fab fa-cc-visa text-2xl text-redNeon"></i></h2>
-            <div class="bg-black/50 p-6 rounded-lg mb-6 border border-white/5 text-center">
-                <p class="font-headings font-bold text-gray-400 uppercase tracking-widest text-[9px] mb-2">Total a cargar</p>
+        <div class="card-vip rounded-t-3xl rounded-b-none border-b-0 p-8 w-full animate-fade" style="box-shadow: 0 -20px 60px rgba(0,0,0,0.9);">
+            <h2 class="title-premium text-xl mb-8 flex justify-between items-center">Confirmar Orden <i class="fab fa-cc-visa text-2xl text-[var(--neon-red)]"></i></h2>
+            <div class="bg-black/60 p-6 rounded-xl mb-6 border border-white/[0.04] text-center">
+                <p class="font-headings font-bold text-white/30 uppercase tracking-widest text-[9px] mb-2">Total a cargar</p>
                 <p class="text-4xl font-headings font-black text-white" id="payment-amount">$0.00</p>
             </div>
             <button id="btn-procesar-pago" onclick="simularPago()" class="btn-gold w-full py-4 text-sm">Procesar Cargo Seguro</button>
-            <button onclick="cerrarModal('payment-modal')" class="w-full mt-4 text-[10px] text-gray-500 font-bold uppercase tracking-widest">Cancelar</button>
+            <button onclick="cerrarModal('payment-modal')" class="w-full mt-4 text-[10px] text-white/25 font-bold uppercase tracking-widest hover:text-white transition">Cancelar</button>
         </div>
     </div>
 
@@ -289,59 +577,59 @@
         
         <div id="profile-login" class="w-full max-w-sm mt-10">
             <div class="text-center mb-10">
-                <div class="w-20 h-20 mx-auto rounded-full border border-redNeon/50 flex items-center justify-center bg-redNeon/10 shadow-[0_0_20px_rgba(255,0,60,0.2)] mb-6">
-                    <i class="fas fa-lock text-2xl text-redNeon"></i>
+                <div class="w-20 h-20 mx-auto rounded-full border border-[var(--neon-red)]/20 flex items-center justify-center bg-[var(--neon-red)]/5 mb-6" style="box-shadow: 0 0 30px rgba(255,10,60,0.1);">
+                    <i class="fas fa-lock text-2xl text-[var(--neon-red)]"></i>
                 </div>
                 <h2 class="title-premium text-2xl mb-2">Bóveda VIP</h2>
-                <p class="text-xs text-gray-500 font-body">Ingresa tus credenciales para acceder a tus reservas y códigos.</p>
+                <p class="text-xs text-white/30 font-body">Ingresa tus credenciales para acceder a tus reservas y códigos.</p>
             </div>
             
             <div class="space-y-4">
-                <input type="text" id="login-user" placeholder="Usuario" class="w-full bg-black/50 border border-white/10 text-white rounded-lg p-5 text-sm font-headings font-bold focus:outline-none focus:border-redNeon transition">
-                <input type="password" id="login-pass" placeholder="Contraseña" class="w-full bg-black/50 border border-white/10 text-white rounded-lg p-5 text-sm font-headings font-bold focus:outline-none focus:border-redNeon transition">
+                <input type="text" id="login-user" placeholder="Usuario" class="w-full bg-black/50 border border-white/10 text-white rounded-lg p-5 text-sm font-headings font-bold focus:outline-none focus:border-[var(--neon-red)]/40 focus:shadow-[0_0_20px_rgba(255,10,60,0.08)] transition">
+                <input type="password" id="login-pass" placeholder="Contraseña" class="w-full bg-black/50 border border-white/10 text-white rounded-lg p-5 text-sm font-headings font-bold focus:outline-none focus:border-[var(--neon-red)]/40 focus:shadow-[0_0_20px_rgba(255,10,60,0.08)] transition">
                 <button onclick="validarLogin()" class="btn-gold w-full mt-4">Desbloquear Acceso</button>
             </div>
         </div>
 
         <div id="profile-dashboard" class="w-full hidden pb-32">
-            <div class="flex items-center mb-10 pb-6 border-b border-white/10">
-                <div class="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black mr-5 font-headings border-2 border-redNeon bg-redNeon/10 text-redNeon">R</div>
+            <div class="flex items-center mb-10 pb-6 border-b border-white/[0.04]">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black mr-5 font-headings border-2 border-[var(--neon-red)]/30 bg-[var(--neon-red)]/5 text-[var(--neon-red)]" style="box-shadow: 0 0 20px rgba(255,10,60,0.1);">R</div>
                 <div>
                     <h2 class="title-premium text-xl">RED CASCO</h2>
-                    <p class="font-headings font-bold text-gray-400 uppercase tracking-widest text-[9px] mt-1"><i class="fas fa-check-circle mr-1 text-green-500"></i> Miembro Verificado</p>
+                    <p class="font-headings font-bold text-white/30 uppercase tracking-widest text-[9px] mt-1"><i class="fas fa-check-circle mr-1 text-green-500"></i> Miembro Verificado</p>
                 </div>
             </div>
 
-            <div class="card-vip p-5 mb-8 flex justify-between items-center border-redNeon/20">
+            <div class="card-vip p-5 mb-8 flex justify-between items-center">
                 <div>
-                    <p class="font-headings font-bold text-gray-400 uppercase tracking-widest text-[8px] mb-1">Puntos RED</p>
+                    <p class="font-headings font-bold text-white/25 uppercase tracking-widest text-[8px] mb-1">Puntos RED</p>
                     <p class="text-3xl font-headings font-black text-white">4,250</p>
                 </div>
                 <button class="btn-neon-outline py-2 px-4 text-[9px]">Redimir</button>
             </div>
 
-            <h3 class="font-headings font-bold text-redNeon uppercase tracking-widest text-[10px] mb-4">Tickets & Reservas Activas</h3>
+            <h3 class="font-headings font-bold text-[var(--neon-red)] uppercase tracking-widest text-[10px] mb-4">Tickets & Reservas Activas</h3>
             <div id="mis-tickets" class="space-y-4">
                 <!-- Se llena vía JS -->
             </div>
             
-            <button onclick="cerrarSesion()" class="w-full mt-10 text-[10px] text-gray-500 font-bold uppercase tracking-widest hover:text-white transition">Cerrar Sesión Segura</button>
+            <button onclick="cerrarSesion()" class="w-full mt-10 text-[10px] text-white/20 font-bold uppercase tracking-widest hover:text-white transition">Cerrar Sesión Segura</button>
         </div>
     </main>
 
     <!-- NAVEGACIÓN INFERIOR SPA -->
-    <nav class="fixed bottom-0 w-full bg-[#050505]/90 backdrop-blur-xl border-t border-white/5 flex justify-around items-center pt-3 pb-6 z-40">
+    <nav class="fixed bottom-0 w-full z-40 flex justify-around items-center pt-3 pb-6" style="background: linear-gradient(to top, rgba(5,0,1,0.98) 60%, rgba(5,0,1,0.85)); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.03);">
         <button onclick="switchView('portal')" id="nav-portal" class="flex flex-col items-center w-1/3 text-gray-500 nav-active transition-all">
             <i class="fas fa-gem text-lg mb-1"></i>
-            <span class="text-[8px] font-headings font-bold uppercase tracking-widest mt-1">Descubrir</span>
+            <span class="text-[7px] font-headings font-bold uppercase tracking-[0.2em] mt-1">Descubrir</span>
         </button>
         <button onclick="switchView('club')" id="nav-club" class="flex flex-col items-center w-1/3 text-gray-500 hover:text-white transition-all">
             <i class="fas fa-glass-martini-alt text-lg mb-1"></i>
-            <span class="text-[8px] font-headings font-bold uppercase tracking-widest mt-1">In-Club</span>
+            <span class="text-[7px] font-headings font-bold uppercase tracking-[0.2em] mt-1">In-Club</span>
         </button>
         <button onclick="switchView('profile')" id="nav-profile" class="flex flex-col items-center w-1/3 text-gray-500 hover:text-white transition-all">
             <i class="fas fa-user-lock text-lg mb-1"></i>
-            <span class="text-[8px] font-headings font-bold uppercase tracking-widest mt-1">Bóveda</span>
+            <span class="text-[7px] font-headings font-bold uppercase tracking-[0.2em] mt-1">Bóveda</span>
         </button>
     </nav>
 
@@ -382,13 +670,13 @@
         productos.forEach(prod => {
             grid.innerHTML += `
                 <div class="card-vip p-0 flex flex-col">
-                    <div class="h-28 relative"><img src="${prod.img}" class="w-full h-full object-cover opacity-60"><div class="absolute top-2 right-2 bg-black/80 px-2 py-1 rounded text-[9px] font-headings font-bold text-white border border-white/10">$${prod.precio}</div></div>
-                    <div class="p-4 flex flex-col flex-grow bg-black/40">
-                        <h3 class="text-[11px] font-headings font-bold mb-3 uppercase truncate">${prod.nombre}</h3>
-                        <div class="flex justify-between items-center bg-black/80 rounded border border-white/10 p-1">
-                            <button onclick="modificarCarrito(${prod.id}, -1)" class="w-6 h-6 text-gray-400 hover:text-white font-bold">-</button>
+                    <div class="h-28 relative overflow-hidden" style="border-radius:14px 14px 0 0;"><img src="${prod.img}" class="w-full h-full object-cover opacity-50 hover:opacity-70 transition duration-500"><div class="absolute top-2 right-2 bg-black/80 px-2.5 py-1 rounded-md text-[9px] font-headings font-bold text-white border border-white/[0.06]">$${prod.precio}</div></div>
+                    <div class="p-4 flex flex-col flex-grow" style="background: rgba(5,0,1,0.6);">
+                        <h3 class="text-[11px] font-headings font-bold mb-3 uppercase truncate text-white/80">${prod.nombre}</h3>
+                        <div class="flex justify-between items-center bg-black/60 rounded-lg border border-white/[0.06] p-1.5">
+                            <button onclick="modificarCarrito(${prod.id}, -1)" class="w-7 h-7 text-white/30 hover:text-white font-bold rounded transition">-</button>
                             <span id="qty-${prod.id}" class="text-sm font-headings font-bold">0</span>
-                            <button onclick="modificarCarrito(${prod.id}, 1)" class="w-6 h-6 text-redNeon hover:text-white font-bold">+</button>
+                            <button onclick="modificarCarrito(${prod.id}, 1)" class="w-7 h-7 text-[var(--neon-red)] hover:text-white font-bold rounded transition">+</button>
                         </div>
                     </div>
                 </div>
@@ -485,18 +773,18 @@
             const cont = document.getElementById('mis-tickets');
             let tkts = JSON.parse(localStorage.getItem('red_user_tickets')) || [];
             if(tkts.length === 0) {
-                cont.innerHTML = `<p class="text-xs text-gray-500 text-center py-6 border border-white/5 rounded-xl font-body">Tu bóveda está vacía.</p>`;
+                cont.innerHTML = `<p class="text-xs text-white/20 text-center py-8 border border-white/[0.04] rounded-xl font-body">Tu bóveda está vacía.</p>`;
             } else {
                 cont.innerHTML = '';
                 tkts.reverse().forEach(t => {
                     cont.innerHTML += `
                     <div class="card-vip p-4 mb-3 flex justify-between items-center">
                         <div>
-                            <span class="font-headings font-bold text-redNeon uppercase tracking-widest text-[7px] mb-1 inline-block">${t.estado}</span>
+                            <span class="font-headings font-bold text-[var(--neon-red)] uppercase tracking-widest text-[7px] mb-1 inline-block">${t.estado}</span>
                             <h4 class="font-headings font-black text-sm uppercase text-white">${t.evento}</h4>
-                            <p class="text-[10px] text-gray-400 font-body">${t.fecha} • ${t.tipo}</p>
+                            <p class="text-[10px] text-white/30 font-body">${t.fecha} • ${t.tipo}</p>
                         </div>
-                        <button onclick="alert('Bóveda ID: ${t.id}')" class="text-3xl text-gray-600 hover:text-redNeon transition"><i class="fas fa-qrcode"></i></button>
+                        <button onclick="alert('Bóveda ID: ${t.id}')" class="text-3xl text-white/15 hover:text-[var(--neon-red)] transition"><i class="fas fa-qrcode"></i></button>
                     </div>`;
                 });
             }
